@@ -1,0 +1,12 @@
+[
+    {
+        "phoneNumber": "0987654321",
+        "password": "password123",
+        "role": "user"
+    },
+    {
+        "phoneNumber": "0976543210",
+        "password": "password123",
+        "role": "doctor"
+    }
+]
