@@ -60,12 +60,21 @@ export default function RootLayout() {
           headerShadowVisible: false,
           headerStyle: { backgroundColor: "#006778", },
         }} />
-        <Stack.Screen name="Appointment" 
+        <Stack.Screen name="Appointment"
           options={{
-            header: () => <Header><AppointmentHeader/></Header>
-          }} 
+            header: () => <Header><AppointmentHeader /></Header>
+          }}
         />
-        <Stack.Screen name="Setting" 
+        <Stack.Screen name="MakeAppointment"
+          options={{
+            title: 'Đặt lịch khám',
+            headerTintColor: "#ffffff",
+            headerStyle: { backgroundColor: "#006778", },
+            headerShadowVisible: false,
+            headerBackTitleVisible: false,
+          }}
+        />
+        <Stack.Screen name="Setting"
           options={{
             title: 'Cài đặt',
             headerTitleStyle: { color: "#fff", },
@@ -73,7 +82,7 @@ export default function RootLayout() {
             headerTintColor: "#fff",
             headerShadowVisible: false,
             headerStyle: { backgroundColor: "#006778", },
-          }} 
+          }}
         />
         <Stack.Screen name="+not-found" />
 
