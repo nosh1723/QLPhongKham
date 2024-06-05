@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
 const otpRoutes = require('./routes/otpRoutes');
+const doctorRoutes = require('./routes/doctorRoutes');
+const serviceRoutes = require('./routes/serviceRoutes');
+const scheduleRoutes = require('./routes/scheduleRoutes');
+const workHourRoutes = require('./routes/workHourRoutes');
+const branchRoutes = require('./routes/branchRoutes'); 
 
 // Tải các biến môi trường từ tệp .env
 dotenv.config();
@@ -15,6 +20,11 @@ app.use(express.json());
 // Định tuyến
 app.use('/api/auth', authRoutes);
 app.use('/api/otp', otpRoutes);
+app.use('/api/doctors', doctorRoutes);
+app.use('/api/services', serviceRoutes);
+app.use('/api/schedules', scheduleRoutes);
+app.use('/api/workhours', workHourRoutes);
+app.use('/api/branch', branchRoutes);
 
 const PORT = process.env.PORT || 5000;
 

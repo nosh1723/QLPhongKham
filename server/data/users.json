@@ -7,6 +7,6 @@
     {
         "phoneNumber": "0976543210",
         "password": "password123",
-        "role": "doctor"
+        "role": "user"
     }
 ]

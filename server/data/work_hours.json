@@ -1,0 +1,33 @@
+[
+    {
+        "title": "Ca sáng",
+        "startTime": "08:00",
+        "endTime": "08:50"
+        
+    },    {
+        "title": "Ca sáng",
+        "startTime": "09:00",
+        "endTime": "09:50"
+        
+    },    {
+        "title": "Ca sáng",
+        "startTime": "10:00",
+        "endTime": "10:50"
+    },
+    {
+        "title": "Ca chiều",
+        "startTime": "13:00",
+        "endTime": "13:50"
+    },
+    {
+        "title": "Ca chiều",
+        "startTime": "14:00",
+        "endTime": "14:50"
+    },
+    {
+        "title": "Ca chiều",
+        "startTime": "15:00",
+        "endTime": "15:50"
+    }
+
+]
