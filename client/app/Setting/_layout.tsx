@@ -26,7 +26,7 @@ const SETTING_LIST = [
         name: 'Yêu cầu hủy tài khoản',
         description: false,
         icon: <FontAwesome6 name="user-minus" size={20} color="#dc5248" />,
-        iconRedirect: <AntDesign name="right" size={24} color="#bec4d0"  style={{marginRight: 5}}/>,
+        iconRedirect: <AntDesign name="right" size={24} color="#bec4d0"  style={{marginRight: 5}}/>
     },
 ]
 
