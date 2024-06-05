@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const WorkHourSchema = new mongoose.Schema({
     
-    title: { type: String, required: true, unique: true },
+    title: { type: String, required: true, },
     startTime: { type: String, required: true },
     endTime: { type: String, required: true },
 });
