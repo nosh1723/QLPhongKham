@@ -4,12 +4,12 @@ const User = require('./models/User');
 const Doctor = require('./models/Doctor');
 const Service = require('./models/Service');
 const Schedule = require('./models/Schedule');
-const WorkHour = require('./models/WorkHour');
+const WorkHour = require('./models/Workhour');
 const users = require('./data/users.json');
 const doctors = require('./data/doctors.json');
 const services = require('./data/services.json');
 const schedules = require('./data/schedules.json');
-const workHours = require('./data/Work_hours.json');
+const workHours = require('./data/work_hours.json');
 const branch = require('./data/branches.json');
 
 // Tải các biến môi trường từ tệp .env
@@ -70,21 +70,28 @@ mongoose.connect(process.env.MONGODB_URI, {
 
     // Thêm giờ làm việc
     for (const workHour of workHours) {
-        const existingWorkHour = await WorkHour.findOne({
+        try {
+          const existingWorkHour = await WorkHour.findOne({
             title: workHour.title,
-            start_time: workHour.start_time,
-            end_time: workHour.end_time
-        });
-        if (!existingWorkHour) {
+            startTime: workHour.startTime,
+            endTime: workHour.endTime,
+            typeShiftWork: workHour.typeShiftWork
+          });
+  
+          if (!existingWorkHour) {
             await WorkHour.create(workHour);
-        } else {
+          } else {
             await WorkHour.updateOne({
-                title: workHour.title,
-                start_time: workHour.start_time,
-                end_time: workHour.end_time
+              title: workHour.title,
+              startTime: workHour.startTime,
+              endTime: workHour.endTime,
+              typeShiftWork: workHour.typeShiftWork
             }, workHour);
+          }
+        } catch (error) {
+          console.error(error);
         }
-    }
+      }
 
     console.log('Dữ liệu mẫu đã được thêm/cập nhật');
     process.exit();

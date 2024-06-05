@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const WorkHour = require('../models/WorkHour');
+const WorkHour = require('../models/Workhour');
 
 // Lấy danh sách tất cả các giờ làm việc
 router.get('/', async (req, res) => {
@@ -13,12 +13,13 @@ router.get('/', async (req, res) => {
 });
 
 // Lấy thông tin một giờ làm việc theo tiêu đề và thời gian
-router.get('/:title/:start_time/:end_time', async (req, res) => {
+router.get('/:title/:startTime/:endTime/:typeShiftWork', async (req, res) => {
     try {
         const workHour = await WorkHour.findOne({
             title: req.params.title,
-            start_time: req.params.start_time,
-            end_time: req.params.end_time
+            startTime: req.params.startTime,
+            endTime: req.params.endTime,
+            typeShiftWork: req.params.typeShiftWork
         });
         if (!workHour) {
             return res.status(404).json({ message: 'Không tìm thấy giờ làm việc' });
