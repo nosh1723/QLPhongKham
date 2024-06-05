@@ -9,7 +9,6 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import Header from '@/components/Header';
 import AppointmentHeader from './Appointment/AppointmentHeader';
 import InputSearch from '@/components/form-component/InputSearch';
-import SettingHeader from './Setting/SettingHeader';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
