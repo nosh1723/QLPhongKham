@@ -8,27 +8,73 @@ import { useNavigation } from "expo-router";
 import ViewComponent from "@/components/ViewComponent";
 import Divider from "@/components/Divider";
 import { useState } from "react";
+import { CheckBox } from '@rneui/themed'
 export default function DeleteAccount() {
-
+    const [selectedIndex, setIndex] = React.useState(0);
     return (
         <ViewComponent>
             <ScrollView>
                 <View style={styles.container}>
                     <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-                        <Text style={{ padding: 10 }}>Hãy cho chúng tôi biết rõ hơn lý do của bạn muốn xoá tài khoản để chúng tôi có thể khắc phục và cải thiện ứng dụng tốt hơn:</Text>
+                        <Text style={{ padding: 10, marginBottom: 8 }}>Hãy cho chúng tôi biết rõ hơn lý do của bạn muốn xoá tài khoản để chúng tôi có thể khắc phục và cải thiện ứng dụng tốt hơn:</Text>
                         <Divider></Divider>
-                        <Text style={styles.text1}>Không hài lòng về sản phẩm</Text>
+                        <CheckBox
+                            title={"Không hài lòng về sản phẩm"}
+                            checked={selectedIndex === 1}
+                            onPress={() => setIndex(1)}
+                            checkedIcon="dot-circle-o"
+                            uncheckedIcon="circle-o"
+                            size={20}
+                            containerStyle={styles.checkboxContainer}
+                            textStyle={styles.checkboxText}
+                        />
                         <Divider></Divider>
-                        <Text style={styles.text1}>Tôi thấy bất tiện lúc sản phẩm khi đi khám</Text>
+                        <CheckBox
+                            title={"Tôi thấy bất tiện lúc sử dụng sản phẩm khi đi khám"}
+                            checked={selectedIndex === 2}
+                            onPress={() => setIndex(2)}
+                            checkedIcon="dot-circle-o"
+                            uncheckedIcon="circle-o"
+                            size={20}
+                            containerStyle={styles.checkboxContainer}
+                            textStyle={styles.checkboxText}
+                        />
                         <Divider></Divider>
-                        <Text style={styles.text1}>Tôi không có nhu cầu sử dụng nữa</Text>
+                        <CheckBox
+                            title={"Tôi không có nhu cầu sử dụng nữa"}
+                            checked={selectedIndex === 3}
+                            onPress={() => setIndex(3)}
+                            checkedIcon="dot-circle-o"
+                            uncheckedIcon="circle-o"
+                            size={20}
+                            containerStyle={styles.checkboxContainer}
+                            textStyle={styles.checkboxText}
+                        />
                         <Divider></Divider>
-                        <Text style={styles.text1}>Tôi gặp lỗi khi sử dụng ứng dụng</Text>
+                        <CheckBox
+                            title={"Tôi gặp lỗi khi sử dụng ứng dụng"}
+                            checked={selectedIndex === 4}
+                            onPress={() => setIndex(4)}
+                            checkedIcon="dot-circle-o"
+                            uncheckedIcon="circle-o"
+                            size={20}
+                            containerStyle={styles.checkboxContainer}
+                            textStyle={styles.checkboxText}
+                        />
                         <Divider></Divider>
-                        <Text style={styles.text1}>Lý do khác (Vui lòng cho biết thêm chi tiết)</Text>
+                        <CheckBox
+                            title={"Lý do khác (vui lòng cho biết thêm chi tiết)"}
+                            checked={selectedIndex === 5}
+                            onPress={() => setIndex(5)}
+                            checkedIcon="dot-circle-o"
+                            uncheckedIcon="circle-o"
+                            size={20}
+                            containerStyle={styles.checkboxContainer}
+                            textStyle={styles.checkboxText}
+                        />
                         <Divider></Divider>
                         <View style={styles.text1}>
-                            <TextInput style={{ borderColor: '#03AED2', borderWidth: 1, borderRadius: 10, height: 130, fontWeight: '400', padding: 10, }} textAlignVertical="top" placeholder="Hãy giúp chúng tôi cải thiện dịch vụ nhé..."></TextInput>
+                            <TextInput style={{ borderColor: '#d3d5d9', borderWidth: 1, borderRadius: 10, height: 130, fontWeight: '400', padding: 10, }} textAlignVertical="top" placeholder="Hãy giúp chúng tôi cải thiện dịch vụ nhé..."></TextInput>
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', padding: 5 }}>
@@ -48,6 +94,15 @@ const styles = StyleSheet.create({
     text1: {
         padding: 10,
         fontSize: 12,
-    }
+    },
+    checkboxContainer: {
+        backgroundColor: '#f2f2f2',
+        paddingTop: 8,
+        paddingBottom: 8,
+    },
+    checkboxText: {
+        fontSize: 13,
+        fontWeight: '500',
+    },
 
 })

@@ -1,4 +1,5 @@
 import { ScrollView, Text, View, TextInput, StyleSheet, TouchableWithoutFeedback, Keyboard, } from "react-native";
+import { AntDesign } from '@expo/vector-icons';
 import * as React from "react";
 import HomeFuncList from "../Home/HomeFuncList";
 import HomeDoctor from "../Home/HomeDoctor";
@@ -7,6 +8,7 @@ import CommonButton from '@/components/CommonButton';
 import { useNavigation } from "expo-router";
 import ViewComponent from "@/components/ViewComponent";
 import { useState } from "react";
+import { Foundation } from '@expo/vector-icons';
 export default function ChangePassword() {
     const navigation = useNavigation()
     const [password1, setPassword1] = useState('');
@@ -29,19 +31,29 @@ export default function ChangePassword() {
             <View style={styles.container}>
                 < View style={{ flex: 1, justifyContent: 'flex-start' }}>
                     <View>
-                        <Text style={{ color: '#000000', fontSize: 15, fontWeight: '500' }}>Mật khẩu hiện tại</Text>
-                        <TextInput style={{ marginTop: 8, borderColor: '#03AED2', borderWidth: 1, fontSize: 13, borderRadius: 10, height: 50, paddingHorizontal: 15, fontWeight: '400', }} placeholder="Nhập mật khẩu của bạn hiện tại" value={password1} onChangeText={setPassword1} secureTextEntry={true}  ></TextInput>
+                        <Text style={{ color: '#000000', fontSize: 14, fontWeight: '500' }}>Mật khẩu hiện tại</Text>
+                        <View style={{ flexDirection: 'row', borderWidth: 1, borderRadius: 10, marginTop: 8, borderColor: "#d3d5d9" }}>
+                            <Foundation name="key" size={11} color="black" style={{ marginTop: 15, borderWidth: 1, height: 17, borderRadius: 5, padding: 2, marginLeft: 13 }} />
+                            <TextInput style={{ height: 45, paddingHorizontal: 15, fontWeight: '400', fontSize: 15 }} placeholder="Nhập mật khẩu của bạn hiện tại" value={password1} onChangeText={setPassword1} secureTextEntry={true} ></TextInput>
+                        </View>
                     </View>
                     <View>
-                        <Text style={{ color: '#000000', fontSize: 15, fontWeight: '500', marginTop: 15 }}>Mật khẩu mới</Text>
-                        <TextInput style={{ marginTop: 8, borderColor: '#03AED2', borderWidth: 1, fontSize: 13, borderRadius: 10, height: 50, paddingHorizontal: 15, fontWeight: '400', }} placeholder="Mật khẩu mới" value={password2} onChangeText={setPassword2} secureTextEntry={true}  ></TextInput>
+                        <Text style={{ color: '#000000', fontSize: 14, fontWeight: '500', marginTop: 10 }}>Mật khẩu mới</Text>
+                        <View style={{ flexDirection: 'row', borderWidth: 1, borderRadius: 10, marginTop: 8, borderColor: "#d3d5d9" }}>
+                            <Foundation name="key" size={11} color="black" style={{ marginTop: 15, borderWidth: 1, height: 17, borderRadius: 5, padding: 2, marginLeft: 13 }} />
+                            <TextInput style={{ height: 45, paddingHorizontal: 15, fontWeight: '400', fontSize: 15 }} placeholder="Mật khẩu mới" value={password2} onChangeText={setPassword2} secureTextEntry={true} ></TextInput>
+                        </View>
                     </View>
                     <View>
-                        <Text style={{ color: '#000000', fontSize: 15, fontWeight: '500', marginTop: 15 }}>Nhập lại mật khẩu mới</Text>
-                        <TextInput style={{ marginTop: 8, borderColor: '#03AED2', borderWidth: 1, fontSize: 13, borderRadius: 10, height: 50, paddingHorizontal: 15, fontWeight: '400', }} placeholder="Nhập lại mật khẩu mới" value={password3} onChangeText={setPassword3} secureTextEntry={true} ></TextInput>
+                        <Text style={{ color: '#000000', fontSize: 14, fontWeight: '500', marginTop: 10 }}>Nhập lại mật khẩu mới</Text>
+                        <View style={{ flexDirection: 'row', borderWidth: 1, borderRadius: 10, marginTop: 8, borderColor: "#d3d5d9" }}>
+                            <Foundation name="key" size={11} color="black" style={{ marginTop: 15, borderWidth: 1, height: 17, borderRadius: 5, padding: 2, marginLeft: 13 }} />
+                            <TextInput style={{ height: 45, paddingHorizontal: 15, fontWeight: '400', fontSize: 15 }} placeholder="Nhập lại mật khẩu mới" value={password3} onChangeText={setPassword3} secureTextEntry={true} ></TextInput>
+                        </View>
                     </View>
-                    <View>
-                        <Text style={{ marginTop: 15 }}>Mật khẩu phải có ít nhất 6 ký tự</Text>
+                    <View style={{ flexDirection: "row" }}>
+                        <AntDesign name="check" size={13} color="black" style={{ marginTop: 17 }} />
+                        <Text style={{ marginTop: 15, marginLeft: 10, fontWeight: "300" }}>Mật khẩu phải có ít nhất 6 ký tự</Text>
                     </View>
                 </View>
                 <View style={{ flex: 3, justifyContent: 'flex-end', }}>
