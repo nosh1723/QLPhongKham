@@ -33,7 +33,12 @@ export default function RootLayout() {
     <ThemeProvider value={DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="Doctor" options={{}} />
+        <Stack.Screen name="Doctor" options={{
+            title: "Thông tin bác sĩ",
+            headerStyle: { backgroundColor: "#006778", },
+            headerTintColor: "#fff",
+            headerTitleStyle: { color: "#fff", },
+        }} />
         <Stack.Screen name="LoginAndReg" options={{
           title: '',
           headerBackTitleVisible: false,
