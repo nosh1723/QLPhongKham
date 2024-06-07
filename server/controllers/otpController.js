@@ -1,6 +1,8 @@
-const speakeasy = require('speakeasy');
 const User = require('../models/User');
+const OTP = require('../models/OTP');
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
+const bcrypt = require('bcrypt');
 
 // Chuyển đổi định dạng số điện thoại
 function formatPhoneNumber(phoneNumber) {
@@ -10,65 +12,56 @@ function formatPhoneNumber(phoneNumber) {
     return phoneNumber;
 }
 
-// Tạo OTP và lưu trữ bí mật trong cơ sở dữ liệu người dùng
-exports.generateOTP = async (req, res) => {
+// Gửi OTP qua eSMS.vn
+exports.sendOTP = async (req, res) => {
     const { phoneNumber } = req.body;
     const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
 
+    // Tạo otp và gửi 
+    const otp = Math.floor(100000 + Math.random() * 900000); // 6 ký tự
+
+    //Lưu OTP tạm thời trong csdl
+    const newOTP = new OTP({ phoneNumber: formattedPhoneNumber, otp });
+    await newOTP.save();
+
     try {
-        const user = await User.findOne({ phoneNumber: formattedPhoneNumber });
-
-        if (!user) {
-            return res.status(404).json({ message: 'Người dùng không tồn tại' });
-        }
-
-        const secret = speakeasy.generateSecret().base32;
-
-        // Tạo OTP
-        const otp = speakeasy.totp({
-            secret: secret,
-            encoding: 'base32'
+        const response = await axios.post('https://rest.esms.vn/MainService.svc/json/SendMultipleMessage_V4_post_json/', {
+            ApiKey: process.env.ESMS_API_KEY,
+            Content: `Mã OTP của bạn là ${otp}`,
+            Phone: formattedPhoneNumber,
+            SecretKey: process.env.ESMS_SECRET_KEY,
+            Brandname: 'Baotrixemay',
+            SmsType: "2",
+            IsUnicode: '1', 
+            Sandbox: '0',
+            campaignid: '',
+            RequestId: '',
+            CallbackUrl: ''
         });
 
-        // Lưu trữ bí mật trong cơ sở dữ liệu người dùng
-        user.otpSecret = secret;
-        await user.save();
-
-        // Gửi OTP cho người dùng (giả định)
-        console.log(`OTP cho ${formattedPhoneNumber} là: ${otp}`);
-
-        res.json({ message: 'OTP đã được tạo và gửi tới số điện thoại của bạn' });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.log(response.data); // Log the response from the eSMS.vn API
+        res.status(200).json({ message: 'OTP đã được gửi thành công' });
+    } catch (error) {
+        console.error('Error sending OTP:', error);
+        res.status(500).json({ message: 'Gửi OTP thất bại', error: error.message });
     }
 };
 
-// Xác minh OTP do người dùng cung cấp
+// Xác minh OTP
 exports.verifyOTP = async (req, res) => {
     const { phoneNumber, otp } = req.body;
     const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
 
     try {
-        const user = await User.findOne({ phoneNumber: formattedPhoneNumber });
+        const validOTP = await OTP.findOne({ phoneNumber: formattedPhoneNumber, otp });
 
-        if (!user) {
-            return res.status(404).json({ message: 'Người dùng không tồn tại' });
-        }
+        if (!validOTP) return res.status(400).json({ message: 'OTP không hợp lệ' });
 
-        const verified = speakeasy.totp.verify({
-            secret: user.otpSecret,
-            encoding: 'base32',
-            token: otp,
-            window: 1
-        });
+        await User.updateOne({ phoneNumber: formattedPhoneNumber }, { $setOnInsert: { phoneNumber: formattedPhoneNumber } }, { upsert: true });
 
-        if (!verified) {
-            return res.status(400).json({ message: 'OTP không hợp lệ hoặc đã hết hạn' });
-        }
+        const token = jwt.sign({ id: validOTP._id, role: 'user' }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-        res.json({ message: 'Xác minh OTP thành công', token });
+        res.status(200).json({ message: 'Xác minh OTP thành công', token });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
