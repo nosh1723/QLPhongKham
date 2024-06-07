@@ -1,0 +1,20 @@
+[
+    {
+        "code": "DV001",
+        "name": "Khám răng định kỳ",
+        "price": 200000,
+        "description": "Dịch vụ khám răng định kỳ để kiểm tra sức khỏe răng miệng."
+    },
+    {
+        "code": "DV002",
+        "name": "Lấy cao răng",
+        "price": 300000,
+        "description": "Dịch vụ lấy cao răng và làm sạch răng."
+    },
+    {
+        "code": "DV003",
+        "name": "Chỉnh nha",
+        "price": 10000000,
+        "description": "Dịch vụ chỉnh nha để cải thiện hàm răng không đều."
+    }
+]
