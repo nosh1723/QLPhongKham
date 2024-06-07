@@ -74,6 +74,40 @@ export default function RootLayout() {
             headerStyle: { backgroundColor: "#006778", },
           }} 
         />
+        <Stack.Screen name="MakeAppointment"
+          options={{
+            title: 'Đặt lịch khám',
+            headerTintColor: "#ffffff",
+            headerStyle: { backgroundColor: "#006778", },
+            headerShadowVisible: false,
+            headerBackTitleVisible: false,
+          }}
+        />
+        <Stack.Screen name="MessDoctor"
+          options={{
+            header: () => <Header><AppointmentHeader /></Header>
+          }}
+        />
+        <Stack.Screen name="ChangePassword"
+          options={{
+            title: 'Thay đổi mật khẩu',
+            headerTitleStyle: { color: "#fff", },
+            headerBackTitleVisible: false,
+            headerTintColor: "#fff",
+            headerShadowVisible: false,
+            headerStyle: { backgroundColor: "#006778", },
+          }}
+        />
+        <Stack.Screen name="DeleteAccount"
+          options={{
+            title: 'Xoá tài khoản',
+            headerTitleStyle: { color: "#fff", },
+            headerBackTitleVisible: false,
+            headerTintColor: "#fff",
+            headerShadowVisible: false,
+            headerStyle: { backgroundColor: "#006778", },
+          }}
+        />
         <Stack.Screen name="+not-found" />
 
       </Stack>

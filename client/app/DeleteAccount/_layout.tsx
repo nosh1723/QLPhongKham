@@ -6,9 +6,9 @@ import HomeService from "../Home/HomeService";
 import CommonButton from '@/components/CommonButton';
 import { useNavigation } from "expo-router";
 import ViewComponent from "@/components/ViewComponent";
-import Divider from "@/components/Divider";
 import { useState } from "react";
 import { CheckBox } from '@rneui/themed'
+import Divider from "@/components/Divider";
 export default function DeleteAccount() {
     const [selectedIndex, setIndex] = React.useState(0);
     return (
