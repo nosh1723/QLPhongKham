@@ -24,7 +24,8 @@ exports.register = async (req, res) => {
             return res.status(400).json({ message: 'Số điện thoại đã tồn tại.' });
         }
 
-        const user = new User({ phoneNumber: formattedPhoneNumber, password, role });
+        const hashedPassword = await bcrypt.hash(password, 10); // Hash the password before saving
+        const user = new User({ phoneNumber: formattedPhoneNumber, password: hashedPassword, role });
         await user.save();
         res.status(201).json({ message: 'Đăng ký người dùng thành công' });
     } catch (err) {
