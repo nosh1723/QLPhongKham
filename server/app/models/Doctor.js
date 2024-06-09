@@ -11,6 +11,12 @@ const DoctorSchema = new mongoose.Schema({
     description: { type: String },
     avatar: { type: String },
     branch_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Branch', },
-});
+},
+    /*
+ {
+    timestamps: true
+}
+    */
+   );
 
 module.exports = mongoose.model('Doctor', DoctorSchema);

@@ -5,11 +5,13 @@ const Doctor = require('./models/Doctor');
 const Service = require('./models/Service');
 const Schedule = require('./models/Schedule');
 const WorkHour = require('./models/WorkHour');
+const DoctorService = require('./models/DoctorService');
 const users = require('./data/users.json');
 const doctors = require('./data/doctors.json');
 const services = require('./data/services.json');
 const schedules = require('./data/schedules.json');
 const workHours = require('./data/work_hours.json');
+const doctorServices = require('./data/doctor_services.json');
 
 // Tải các biến môi trường từ tệp .env
 dotenv.config();
@@ -105,6 +107,35 @@ mongoose.connect(process.env.MONGODB_URI, {
             }
         } catch (error) {
             console.error('Lỗi khi thêm hoặc cập nhật giờ làm việc:', error);
+        }
+    }
+
+    // Thêm dữ liệu DoctorService
+    for (const ds of doctorServices) {
+        try {
+            const doctor = await Doctor.findOne({ code: ds.doctor_code });
+            const service = await Service.findOne({ name: ds.service_name });
+
+            // Kiểm tra xem bác sĩ và dịch vụ có tồn tại không
+            if (!doctor) {
+                console.error(`Bác sĩ với mã ${ds.doctor_code} không tồn tại.`);
+                continue;
+            }
+
+            if (!service) {
+                console.error(`Dịch vụ "${ds.service_name}" không tồn tại.`);
+                continue;
+            }
+
+            // Tạo một đối tượng DoctorService mới và lưu vào cơ sở dữ liệu
+            const doctorService = new DoctorService({
+                doctor_code: ds.doctor_code,
+                service_name: ds.service_name,
+            });
+
+            await doctorService.save();
+        } catch (error) {
+            console.error('Lỗi khi thêm dữ liệu DoctorService:', error);
         }
     }
 
