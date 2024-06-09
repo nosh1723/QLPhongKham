@@ -1,14 +1,14 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+// import React from 'react';
+// import { View, StyleSheet } from 'react-native';
 
-const Divider = ({ color = '#DCDCDC', thickness = 1, }) => {
-    return <View style={[styles.divider, { backgroundColor: color, height: thickness },]} />;
-};
+// const Divider = ({ color = '#DCDCDC', thickness = 1, }) => {
+//     return <View style={[styles.divider, { backgroundColor: color, height: thickness },]} />;
+// };
 
-const styles = StyleSheet.create({
-    divider: {
-        width: '100%',
-    },
-});
+// const styles = StyleSheet.create({
+//     divider: {
+//         width: '100%',
+//     },
+// });
 
-export default Divider;
+// export default Divider;
