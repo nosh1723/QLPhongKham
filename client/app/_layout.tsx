@@ -29,6 +29,8 @@ export default function RootLayout() {
     return null;
   }
 
+  
+
   return (
     <ThemeProvider value={DefaultTheme}>
       <Stack>

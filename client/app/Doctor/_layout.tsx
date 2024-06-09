@@ -1,12 +1,29 @@
 import ViewComponent from '@/components/ViewComponent';
 import { Button, Image } from '@rneui/themed';
-import React from 'react';
-import { ScrollView, Text } from 'react-native';
+import React, { useState } from 'react';
+import { Platform, ScrollView, Text } from 'react-native';
 import { View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CommonButton from '@/components/CommonButton';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const DoctorIndex = () => {
+    const [date, setDate] = useState(new Date());
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
+    const isIos = Platform.OS === "ios"
+
+    const onChange = (event, selectedDate) => {
+        if(!isIos) {
+            const currentDate = selectedDate;
+            setShow(false);
+            setDate(currentDate);
+        }
+      };
+      const showMode = (currentMode) => {
+        setShow(true);
+        setMode(currentMode);
+      };
     return (
         <ViewComponent>
             <ScrollView showsVerticalScrollIndicator={false} >
@@ -25,8 +42,23 @@ const DoctorIndex = () => {
                     </View>
                 </View>
                 <View style={{backgroundColor: "#fff"}}>
-                    <CommonButton>Lịch khám</CommonButton>
-                    
+                    <CommonButton onPress={()=> setShow(true)}>Lịch khám</CommonButton>
+                    {show && 
+                    <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        mode={mode}
+                        is24Hour={true}
+                        onChange={onChange}
+                        display='spinner'
+                        style={{height: 120}}
+                    />}
+                    {isIos && show &&
+                        <>
+                            <CommonButton onPress={()=> setShow(false)}>Cancel</CommonButton>
+                            <CommonButton onPress={()=> console.log(new Date(3373616131000).getDate())}>Comfirm</CommonButton>
+                        </>
+                    }
                 </View>
             </ScrollView>
         </ViewComponent>
