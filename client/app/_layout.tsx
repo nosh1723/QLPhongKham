@@ -37,6 +37,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="Doctor" options={{
             title: "Thông tin bác sĩ",
+            headerBackTitleVisible: false,
             headerStyle: { backgroundColor: "#006778", },
             headerTintColor: "#fff",
             headerTitleStyle: { color: "#fff", },
