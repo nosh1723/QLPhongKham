@@ -155,7 +155,7 @@ mongoose.connect(process.env.MONGODB_URI, {
         }
     }
 
-    console.log('Dữ liệu mẫu đã được thêm/cập nhật');
+    console.log('Dữ liệu mẫu đã được thêm/cập nhật thành công');
     process.exit();
 }).catch((err) => {
     console.error('Lỗi kết nối MongoDB:', err);
