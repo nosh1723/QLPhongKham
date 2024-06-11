@@ -44,7 +44,7 @@ const UserContent = () => {
     return (
         <View>
             <Card>
-                <View style={{flexDirection: 'row', alignItems: 'center', padding: 5}}>
+                <TouchableOpacity onPress={() => navigation.navigate("UserInfo")} style={{flexDirection: 'row', alignItems: 'center', padding: 5}}>
                     <View style={{paddingRight: 10}}>
                         <FontAwesome name="user-circle-o" size={50} color="#969ba7" />
                     </View>
@@ -56,7 +56,7 @@ const UserContent = () => {
                             +84354297713
                         </Text>
                     </View>
-                </View>
+                </TouchableOpacity>
             </Card>
 
             <Card style={{paddingVertical: 0, borderRadius: 14}}>

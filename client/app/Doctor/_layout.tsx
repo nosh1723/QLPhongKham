@@ -1,6 +1,6 @@
 import ViewComponent from '@/components/ViewComponent';
 import { Button, Image } from '@rneui/themed';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Platform, ScrollView, Text, TouchableOpacity } from 'react-native';
 import { View } from 'react-native';
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -12,8 +12,10 @@ import { Entypo } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { setBackgroundColorAsync } from 'expo-system-ui';
+import { useStore } from '@/stores';
 
 const DoctorIndex = () => {
+    const navigation = useNavigation()
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
@@ -21,7 +23,8 @@ const DoctorIndex = () => {
     const [extendWorkPace, setExtendWorkPace] = useState(true)
     const isIos = Platform.OS === "ios"
 
-    const navigation = useNavigation()
+    const {  doctor } = useStore().home
+
 
     const onChange = (event, selectedDate) => {
         if(!isIos) {
@@ -30,12 +33,6 @@ const DoctorIndex = () => {
             setDate(currentDate);
         }
     };
-    const showMode = (currentMode) => {
-        setShow(true);
-        setMode(currentMode);
-    };
-
-    const snapPoints = useMemo(() => ['25%', '50%'], [])
     
     // ref
     const bottomSheetRef = useRef<BottomSheet>(null);
@@ -44,9 +41,7 @@ const DoctorIndex = () => {
     const handleSheetChanges = useCallback((index: number) => {
         console.log('handleSheetChanges', index);
     }, []);
-      
-    //   const { id } = useLocalSearchParams();
-    //   console.log("hi",id);
+
     const bg = "#fff"
       
       
@@ -55,18 +50,18 @@ const DoctorIndex = () => {
             <ViewComponent >
                 <>
                     <ScrollView showsVerticalScrollIndicator={false} >
-                        <View style={{flexDirection: "row", padding: 12, backgroundColor: bg, marginBottom: 5}}>
+                        <View style={{flexDirection: "row", padding: 12, backgroundColor: bg, marginBottom: 5, alignItems: 'center'}}>
                             <Image containerStyle={{ width: 100, height: 100, borderRadius: 1000, marginBottom: 10, marginRight: 15 }} source={{ uri: "https://i.pinimg.com/736x/7d/9d/ed/7d9ded7751b328b1000bcfe4c1dc7727.jpg" }} />
                             <View>
-                                <Text style={{fontSize: 18}}>BS. CK2</Text>
+                                {/* <Text style={{fontSize: 18}}>BS. CK2</Text> */}
                                 <Text style={{fontSize: 20, fontWeight: 500}}>
-                                    Lê Thị Minh Hồng
+                                    {doctor?.name}
                                 </Text>
                                 <View style={{flexDirection: 'row', alignItems: "center", paddingVertical: 5}}>
                                     <MaterialCommunityIcons name="check-decagram" size={16} color="#007bfc" style={{paddingRight: 3}} />
                                     <Text style={{color: "#007bfc"}}>Bác sĩ</Text>
                                 </View>
-                                <Text><Text style={{fontWeight: 500}}>24</Text> năm kinh nghiệm</Text>
+                                <Text><Text style={{fontWeight: 500}}>{doctor?.year_of_experience}</Text> năm kinh nghiệm</Text>
                                 <Text numberOfLines={1}>Cơ sở 1: Đường tam trinh, phố đèn xanh</Text>
                             </View>
                         </View>
@@ -121,11 +116,7 @@ const DoctorIndex = () => {
                             {extendIntroduce && 
                                 <View style={{paddingBottom: 20}}>
                                     <Text>
-                                        Béc ST Chuyén khoa 11 Lé Thi Minh Hbng hién dang
-                                        lå Ph6 Giåm ddC Benh vien Nhi Döng 2. Béc ST trvc
-                                        tiép khåm benh theo yéu cäu chät lurqng cao tai
-                                        Benh Vien Nhi Döng 2 vå phöng khåm Nhi khoa
-                                        (250 Nguyen xi, Phuong 13, Binh Thanh, TP.HCM).
+                                        {doctor?.description}
                                     </Text>
                                     <Text style={{paddingVertical: 10}}>
                                         Các dịch vụ của bác sĩ:
