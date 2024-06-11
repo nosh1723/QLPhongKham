@@ -6,12 +6,14 @@ const Service = require('./models/Service');
 const Schedule = require('./models/Schedule');
 const WorkHour = require('./models/WorkHour');
 const DoctorService = require('./models/DoctorService');
+const Branch = require('./models/Branch');
 const users = require('./data/users.json');
 const doctors = require('./data/doctors.json');
 const services = require('./data/services.json');
 const schedules = require('./data/schedules.json');
 const workHours = require('./data/work_hours.json');
 const doctorServices = require('./data/doctor_services.json');
+const branches = require('./data/branches.json');
 
 // Tải các biến môi trường từ tệp .env
 dotenv.config();
@@ -23,17 +25,17 @@ mongoose.connect(process.env.MONGODB_URI, {
 }).then(async () => {
     console.log('Đã kết nối đến MongoDB');
 
-    // Thêm người dùng
-    for (const user of users) {
+    // Thêm chi nhánh
+    for (const branch of branches) {
         try {
-            const existingUser = await User.findOne({ phone_number: user.phone_number });
-            if (!existingUser) {
-                await User.create(user);
+            const existingBranch = await Branch.findOne({ code: branch.code });
+            if (!existingBranch) {
+                await Branch.create(branch);
             } else {
-                await User.updateOne({ phone_number: user.phone_number }, user);
+                await Branch.updateOne({ code: branch.code }, branch);
             }
         } catch (error) {
-            console.error('Lỗi khi thêm hoặc cập nhật người dùng:', error);
+            console.error('Lỗi khi thêm hoặc cập nhật chi nhánh:', error);
         }
     }
 
@@ -48,6 +50,20 @@ mongoose.connect(process.env.MONGODB_URI, {
             }
         } catch (error) {
             console.error('Lỗi khi thêm hoặc cập nhật bác sĩ:', error);
+        }
+    }
+
+    // Thêm người dùng
+    for (const user of users) {
+        try {
+            const existingUser = await User.findOne({ phone_number: user.phone_number });
+            if (!existingUser) {
+                await User.create(user);
+            } else {
+                await User.updateOne({ phone_number: user.phone_number }, user);
+            }
+        } catch (error) {
+            console.error('Lỗi khi thêm hoặc cập nhật người dùng:', error);
         }
     }
 

@@ -8,7 +8,8 @@
         "experience": "Chuyên khoa nha khoa tổng quát",
         "description": "Bác sĩ chuyên khoa nha khoa tổng quát với nhiều năm kinh nghiệm.",
         "avatar": "link_to_avatar",
-        "branch_code": "BR001"
+        "branch_code": "BR001",
+        "branch_name": "Chi nhánh 1"
     },
     {
         "code": "BS002",
@@ -19,7 +20,8 @@
         "experience": "Chuyên khoa chỉnh nha",
         "description": "Bác sĩ chuyên khoa chỉnh nha với nhiều năm kinh nghiệm.",
         "avatar": "link_to_avatar",
-        "branch_code": "BR002"
+        "branch_code": "BR002",
+        "branch_name": "Chi nhánh 2"
     },
     {
         "code": "BS003",
@@ -30,6 +32,7 @@
         "experience": "Chuyên khoa nha khoa chỉnh hình ",
         "description": "Bác sĩ chuyên khoa nha chỉnh hình với nhiều năm kinh nghiệm.",
         "avatar": "link_to_avatar",
-        "branch_code": "BR003"
+        "branch_code": "BR003",
+        "branch_name": "Chi nhánh 3"
     }
 ]

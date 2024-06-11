@@ -4,19 +4,19 @@
         "service_name": "Khám răng định kỳ"
     },
     {
-        "doctor_code": "BS001",
+        "doctor_code": "BS002",
         "service_name": "Khám răng định kỳ"
     },
     {
-        "doctor_code": "BS002",
-        "service_name": "Lấy cao răng"
-    },
-    {
-        "doctor_code": "BS002",
-        "service_name": "Lấy cao răng"
-    },
-    {
         "doctor_code": "BS003",
+        "service_name": "Lấy cao răng"
+    },
+    {
+        "doctor_code": "BS001",
+        "service_name": "Lấy cao răng"
+    },
+    {
+        "doctor_code": "BS002",
         "service_name": "Chỉnh nha"
     },
     {
