@@ -4,9 +4,10 @@ import React, { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
-const ServiceList = () => {
+const ServiceList = ({data}) => {
     const navigation = useNavigation()
     const [extend, setExtend] = useState(false)
+    
     return (
         <View style={{flexDirection: 'column', backgroundColor: "#fff", padding: 10, marginBottom: 10}}>
             <View style={{flexDirection: "column", paddingVertical: 10}}>
@@ -17,7 +18,6 @@ const ServiceList = () => {
                     <Text style={{opacity: .7, paddingBottom: 5}}><Text style={{fontWeight: 600}}>Invisalign:</Text> Sử dụng khay trong suốt để chỉnh nha mà không cần niềng răng cố định..</Text>
                     <Text style={{opacity: .7, paddingBottom: 5}}><Text style={{fontWeight: 600}}>Invisalign:</Text> Sử dụng khay trong suốt để chỉnh nha mà không cần niềng răng cố định..</Text>
                 </View>
-                    {!extend && <Text style={{width:  "100%", textAlign: 'center', color: "#9eabb9"}}>. . .</Text>}
                     <TouchableOpacity onPress={() => setExtend(!extend)} style={{width: "100%", flexDirection: 'row', justifyContent: 'center'}}>
                         {extend ? 
                             <FontAwesome name="angle-up" size={24} color="black" />

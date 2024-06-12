@@ -1,9 +1,9 @@
-import CommonButton from '@/components/CommonButton';
 import { Image } from '@rneui/themed';
 import React from 'react';
 import { Text, View } from 'react-native';
 import { useNavigation } from "expo-router";
-const AppointmentList = () => {
+import CommonButton from '@/components/CommonButton';
+ const AppointmentList = () => {
     const navigation = useNavigation()
     return (
         <View style={{ flexDirection: 'column', backgroundColor: "#fff", padding: 10, marginBottom: 10 }}>
@@ -19,6 +19,5 @@ const AppointmentList = () => {
             </View>
         </View>
     );
-};
-
-export default AppointmentList;
+}
+export default AppointmentList

@@ -21,7 +21,7 @@ const LIST_FUNC = [
     },
     {
         title: "Chat với bác sĩ",
-        navigate: <></>,
+        navigate: "MessDoctor",
         color: "#03AED2",
         icon: <IconMessage  color='#fff'/>
     },
