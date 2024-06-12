@@ -43,10 +43,7 @@ export default function RootLayout() {
             headerTitleStyle: { color: "#fff", },
           }} />
           <Stack.Screen name="LoginAndReg" options={{
-            title: '',
-            headerBackTitleVisible: false,
-            headerTintColor: "#000",
-            headerShadowVisible: false,
+            headerShown: false
 
           }} />
           <Stack.Screen name="LogOTP" options={{
