@@ -8,6 +8,7 @@ import { ScrollView } from 'react-native';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { style } from '@/styles';
 
 const UserEdit = () => {
     const [selectedIndex, setIndex] = React.useState(0);
@@ -85,7 +86,7 @@ const UserEdit = () => {
                                 <View style={{flexDirection: 'row', }}><Text style={{fontWeight: 500, fontSize: 16}}>Dân tộc</Text></View>
                                 <TextInput style={style.input} placeholder='Nhập Dân tộc' value={values.name} onChangeText={handleChange('name')}/>
                             </View>
-                            <CommonButton onPress={handleSubmit} style={{marginTop: 10, borderRadius: 8}}>hi</CommonButton>
+                            <CommonButton onPress={handleSubmit} style={{marginTop: 10, borderRadius: 8}}>Lưu</CommonButton>
                         </View>
                     </ScrollView>
                 </ViewComponent>
@@ -96,14 +97,3 @@ const UserEdit = () => {
 
 export default UserEdit;
 
-const style = StyleSheet.create({
-    input: {
-        padding: 12,
-        paddingHorizontal: 15,
-        borderWidth: 1,
-        borderColor: "#ccc",
-        borderRadius: 8,
-        marginTop: 5,
-        fontSize: 16
-    }
-})
