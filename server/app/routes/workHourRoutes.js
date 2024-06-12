@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const WorkHour = require('../models/Workhour');
+const WorkHour = require('../models/WorkHour');
 
 // Lấy danh sách tất cả các giờ làm việc
 router.get('/', async (req, res) => {
