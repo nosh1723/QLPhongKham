@@ -14,7 +14,7 @@ export default function LoginRes() {
             <View style={styles.container}>
                 <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                     <Text style={{ color: '#000000', fontSize: 20, fontWeight: '500' }}>Nhập số điện thoại di động</Text>
-                </View>
+                </View> 
                 <View style={{ flex: 2, justifyContent: 'flex-start' }}>
                     <TextInput style={{ marginTop: 20, borderColor: '#03AED2', borderWidth: 1, fontSize: 22, borderRadius: 10, height: 50, paddingHorizontal: 15, fontWeight: '400', }} placeholder="0123456789" keyboardType='numeric'></TextInput>
                     <Text style={{ marginTop: 20, fontWeight: '300' }}>Bằng việc tiếp tục, bạn đã đồng ý với các <Text style={{ fontWeight: '400', textDecorationLine: 'underline', }}>Điều khoản, điều kiện sử dụng của chúng tôi</Text> </Text>
