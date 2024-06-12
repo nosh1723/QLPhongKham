@@ -27,7 +27,7 @@ export default ({
       onPress={onPress}
       title={title}
       disabled={disabled}
-      titleStyle={{...titleStyle, marginHorizontal: 5 }}
+      titleStyle={{...titleStyle, marginHorizontal: 5, fontWeight: 500 }}
       {...props}
     />
   );
