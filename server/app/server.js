@@ -1,8 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
-const otpRoutes = require('./routes/otpRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
 const serviceRoutes = require('./routes/serviceRoutes');
 const scheduleRoutes = require('./routes/scheduleRoutes');
@@ -17,9 +17,11 @@ const app = express();
 // Middleware để phân tích cú pháp JSON
 app.use(express.json());
 
+// Kích hoạt CORS cho tất cả các route
+app.use(cors({ origin: 'http://localhost:3000' }));
+
 // Định tuyến
 app.use('/api/auth', authRoutes);
-app.use('/api/otp', otpRoutes);
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/schedules', scheduleRoutes);
