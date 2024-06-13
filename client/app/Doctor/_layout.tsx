@@ -62,7 +62,7 @@ const DoctorIndex = () => {
                                     <Text style={{ color: "#007bfc" }}>Bác sĩ</Text>
                                 </View>
                                 <Text><Text style={{fontWeight: 500}}>{doctor?.year_of_experience}</Text> năm kinh nghiệm</Text>
-                                <Text numberOfLines={1}>Cơ sở 1: Đường tam trinh, phố đèn xanh</Text>
+                                <Text numberOfLines={1}>{doctor?.branch?.name}</Text>
                             </View>
                         </View>
                         <View style={{ backgroundColor: bg, padding: 12, marginBottom: 5 }}>

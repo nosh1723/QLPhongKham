@@ -54,7 +54,7 @@ const HomeFuncList = () => {
             <View style={{flexDirection: 'row', flexWrap: 'wrap', gap: 5, justifyContent: 'center',}}>
                 {LIST_FUNC.map(i => (
                         <TouchableOpacity  onPress={() => navigation.navigate(i.navigate)} key={"listfunc"+i.title} style={{width: "30%", height: 'auto', flexDirection: "column", alignItems: "center", padding: 10}}>
-                                <View style={{ backgroundColor: i.color, width: 55, height: 55, justifyContent: 'center', alignItems: 'center',borderRadius: 1000, shadowColor: "#000", shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.23, shadowRadius: 2.6, elevation: 4}}>
+                                <View style={{ backgroundColor: i.color, width: 55, height: 55, flexDirection: "row", justifyContent: 'center', alignItems: 'center',borderRadius: 1000, shadowColor: "#000", shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.23, shadowRadius: 2.6, elevation: 4}}>
                                     <Text>{i.icon}</Text>
                                 </View>
                             <Text style={{color: "#000", paddingTop: 5, textAlign: 'center'}}>{i.title}</Text>

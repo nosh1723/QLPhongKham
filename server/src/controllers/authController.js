@@ -102,17 +102,20 @@ exports.register = asyncHandle(async (req, res) => {
 
 // Đăng nhập người dùng
 exports.login = async (req, res) => {
-    const { phoneNumber, password } = req.body;
+    const { email, password } = req.body;
 
     try {
-        const user = await User.findOne({ phoneNumber });
+        const user = await User.findOne({ email });
         if (!user) return res.status(404).json({ message: 'Người dùng không tồn tại', status: 0 });
 
-        const isMatch = await bcrypt.compare(password, user.password);
+        console.log(password);
+        const isMatch = bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: 'Thông tin đăng nhập không hợp lệ', status: 0 });
 
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '4d' });
-        res.json({ token, status: 1 });
+        res.json({ token, status: 1, user: {
+            email: user.email
+        } });
     } catch (err) {
         res.status(500).json({ error: err.message, status: 0 });
     }

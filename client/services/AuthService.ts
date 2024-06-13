@@ -8,6 +8,11 @@ export const  register = (obj:object) => {
     return axios.post(url, obj)
 }
 
+export const  login = (obj:object) => {
+    const url = API_PATH + "/login"
+    return axios.post(url, obj)
+}
+
 export const  verification = (email:object) => {
     const url = API_PATH + "/verification"
     return axios.post(url, email)
