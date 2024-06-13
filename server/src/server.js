@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
@@ -8,9 +7,7 @@ const serviceRoutes = require('./routes/serviceRoutes');
 const scheduleRoutes = require('./routes/scheduleRoutes');
 const workHourRoutes = require('./routes/workHourRoutes');
 const branchRoutes = require('./routes/branchRoutes'); 
-
-// Tải các biến môi trường từ tệp .env
-dotenv.config();
+require('dotenv').config()
 
 const app = express();
 
@@ -18,7 +15,7 @@ const app = express();
 app.use(express.json());
 
 // Kích hoạt CORS cho tất cả các route
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors());
 
 // Định tuyến
 app.use('/api/auth', authRoutes);
@@ -29,7 +26,6 @@ app.use('/api/workhours', workHourRoutes);
 app.use('/api/branch', branchRoutes);
 
 const PORT = process.env.PORT || 5000;
-
 // Kết nối tới MongoDB bằng chuỗi kết nối từ .env
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
