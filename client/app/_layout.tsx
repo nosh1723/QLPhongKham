@@ -42,19 +42,16 @@ export default function RootLayout() {
             headerTintColor: "#fff",
             headerTitleStyle: { color: "#fff", },
           }} />
-          <Stack.Screen name="LoginAndReg" options={{
+          <Stack.Screen name="Login" options={{
+            headerShown: false
+
+          }} />
+          <Stack.Screen name="Register" options={{
             headerShown: false
 
           }} />
           <Stack.Screen name="LogOTP" options={{
             headerShown: false
-          }} />
-
-          <Stack.Screen name="Login" options={{
-            title: '',
-            headerBackTitleVisible: false,
-            headerTintColor: "#000",
-            headerShadowVisible: false,
           }} />
           <Stack.Screen name="Service" options={{
             title: 'Dịch vụ',
