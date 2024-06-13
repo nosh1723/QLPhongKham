@@ -33,14 +33,10 @@ export default function RootLayout() {
   return (
     <StoreProvider value={rootStore}>
       <ThemeProvider value={DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="Login" options={{
-            headerShown: false
-
-          }} />
-          <Stack.Screen name="Register" options={{
-            headerShown: false
-
+        <Stack >
+          <Stack.Screen name="(auths)" options={{
+            headerShown: false,
+            
           }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="Doctor" options={{

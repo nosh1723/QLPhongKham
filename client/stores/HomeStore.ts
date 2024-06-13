@@ -4,6 +4,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 export default class HomeStore {
     pageDoctor = []
     doctor = null
+    isLoading = false
 
     constructor() {
         makeAutoObservable(this)
@@ -28,15 +29,24 @@ export default class HomeStore {
 
     getDoctor = async (id: any) => {
         try {
-            const { data } = await getDoctor(id)
+            this.setIsLoading(true)
+            
+            const { data } = await getDoctor({id})
             this.doctor = data;
+            this.setIsLoading(false)
         } catch (error) {
             console.log(error);
+            this.setIsLoading(false)
         }
     } 
+
+    setIsLoading = (isLoading: boolean) => {
+        this.isLoading = isLoading
+    }
 
     resetStore = () => {
         this.pageDoctor = []
         this.doctor = null
+        this.isLoading = false
     }
 }

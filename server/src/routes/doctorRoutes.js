@@ -45,9 +45,9 @@ router.get('/', async (req, res) => {
 });
 
 // Lấy thông tin bác sĩ theo mã cùng thông tin chi nhánh
-router.get('/:code', async (req, res) => {
+router.post('/info', async (req, res) => {
     try {
-        const doctor = await Doctor.findOne({ code: req.params.code })
+        const doctor = await Doctor.findOne({ _id: req.body.id })
             .populate({
                 path: 'services',
                 populate: {
@@ -71,12 +71,23 @@ router.get('/:code', async (req, res) => {
             };
         }
 
+        const doctorInfo = doctor.toObject()
+
         const doctorWithBranchDetails = {
-            ...doctor.toObject(),
+            id: doctorInfo?._id,
+            code: doctorInfo?.code,
+            name: doctorInfo?.name,
+            birthDate: doctorInfo?.birth_date,
+            gender: doctorInfo?.gender,
+            yearOfExperience: doctorInfo?.year_of_experience,
+            experience: doctorInfo?.experience,
+            description: doctorInfo?.description,
+            avatar: doctorInfo?.avatar,
+            services: doctorInfo?.services,
             branch: branchDetails
         };
 
-        res.json(doctorWithBranchDetails);
+        res.status(200).json(doctorWithBranchDetails);
     } catch (error) {
         console.error('Lỗi khi lấy thông tin bác sĩ theo mã:', error);
         res.status(500).json({ message: 'Lỗi máy chủ' });
