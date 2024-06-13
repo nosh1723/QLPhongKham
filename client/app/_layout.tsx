@@ -34,14 +34,6 @@ export default function RootLayout() {
     <StoreProvider value={rootStore}>
       <ThemeProvider value={DefaultTheme}>
         <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="Doctor" options={{
-            title: "Thông tin bác sĩ",
-            headerBackTitleVisible: false,
-            headerStyle: { backgroundColor: "#006778", },
-            headerTintColor: "#fff",
-            headerTitleStyle: { color: "#fff", },
-          }} />
           <Stack.Screen name="Login" options={{
             headerShown: false
 
@@ -50,6 +42,15 @@ export default function RootLayout() {
             headerShown: false
 
           }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="Doctor" options={{
+            title: "Thông tin bác sĩ",
+            headerBackTitleVisible: false,
+            headerStyle: { backgroundColor: "#006778", },
+            headerTintColor: "#fff",
+            headerTitleStyle: { color: "#fff", },
+          }} />
+          
           <Stack.Screen name="LogOTP" options={{
             headerShown: false
           }} />
