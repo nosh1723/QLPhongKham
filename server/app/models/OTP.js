@@ -1,3 +1,4 @@
+/*
 const mongoose = require('mongoose');
 
 const OTPSchema = new mongoose.Schema({
@@ -8,3 +9,4 @@ const OTPSchema = new mongoose.Schema({
 
 const OTP = mongoose.model('OTP', OTPSchema);
 module.exports = OTP;
+*/

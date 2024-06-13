@@ -1,16 +1,14 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-
-//Định nghĩa schema người dùng
+// Định nghĩa schema người dùng
 const UserSchema = new mongoose.Schema({
     phoneNumber: { type: String, required: true, unique: true },
     password: { type: String },
-    role: { type: String, enum: ['user', 'admin', 'doctor', 'staff'], default: 'user' }  
+    role: { type: String, enum: ['user', 'admin', 'doctor', 'staff'], default: 'user' }
 });
 
-
-//Mã hóa mật khẩu trước khi lưu
+// Mã hóa mật khẩu trước khi lưu
 UserSchema.pre('save', async function(next) {
     if (!this.isModified('password')) return next();
     const salt = await bcrypt.genSalt(10);

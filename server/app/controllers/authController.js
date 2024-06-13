@@ -2,60 +2,72 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// Chuyển đổi định dạng số điện thoại
-function formatPhoneNumber(phoneNumber) {
-    if (phoneNumber.startsWith('0')) {
-        return '+84' + phoneNumber.slice(1);
-    }
-    return phoneNumber;
-}
-
-exports.register = async (req, res) => {
-    const { phoneNumber, password, role } = req.body;
-    const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
+// Kiểm tra tính hợp lệ của số điện thoại
+exports.checkPhoneNumber = async (req, res) => {
+    const { phoneNumber } = req.body;
 
     if (phoneNumber.length < 7 || phoneNumber.length > 11) {
-        return res.status(400).json({ message: 'Số điện thoại không hợp lệ.' });
+        return res.status(400).json({ message: 'Số điện thoại không hợp lệ.', status: 0 });
     }
 
     try {
-        const existingUser = await User.findOne({ phoneNumber: formattedPhoneNumber });
+        const existingUser = await User.findOne({ phoneNumber });
         if (existingUser) {
-            return res.status(400).json({ message: 'Số điện thoại đã tồn tại.' });
+            return res.status(400).json({ message: 'Số điện thoại đã tồn tại.', status: 0 });
+        }
+        res.status(200).json({ message: 'Số điện thoại hợp lệ.', status: 1 });
+    } catch (err) {
+        res.status(500).json({ error: err.message, status: 0 });
+    }
+};
+
+// Đăng ký người dùng mới
+exports.register = async (req, res) => {
+    const { phoneNumber, password, role } = req.body;
+
+    if (phoneNumber.length < 7 || phoneNumber.length > 11) {
+        return res.status(400).json({ message: 'Số điện thoại không hợp lệ.', status: 0 });
+    }
+
+    try {
+        const existingUser = await User.findOne({ phoneNumber });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Số điện thoại đã tồn tại.', status: 0 });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10); // Hash the password before saving
-        const user = new User({ phoneNumber: formattedPhoneNumber, password: hashedPassword, role });
+        const hashedPassword = await bcrypt.hash(password, 10); // Hash password
+        const user = new User({ phoneNumber, password: hashedPassword, role });
         await user.save();
-        res.status(201).json({ message: 'Đăng ký người dùng thành công' });
+        res.status(201).json({ message: 'Đăng ký người dùng thành công.', status: 1 });
     } catch (err) {
-        res.status(400).json({ error: err.message });
+        res.status(400).json({ error: err.message, status: 0 });
     }
 };
 
+// Đăng nhập người dùng
 exports.login = async (req, res) => {
     const { phoneNumber, password } = req.body;
-    const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
 
     try {
-        const user = await User.findOne({ phoneNumber: formattedPhoneNumber });
-        if (!user) return res.status(404).json({ message: 'Người dùng không tồn tại' });
+        const user = await User.findOne({ phoneNumber });
+        if (!user) return res.status(404).json({ message: 'Người dùng không tồn tại', status: 0 });
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ message: 'Thông tin đăng nhập không hợp lệ' });
+        if (!isMatch) return res.status(400).json({ message: 'Thông tin đăng nhập không hợp lệ', status: 0 });
 
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.json({ token });
+        res.json({ token, status: 1 });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: err.message, status: 0 });
     }
 };
 
+// Lấy thông tin người dùng
 exports.getProfile = async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
         res.json(user);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: err.message, status: 0 });
     }
 };
