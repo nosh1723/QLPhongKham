@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 // Định nghĩa schema người dùng
 const UserSchema = new mongoose.Schema({
-    phoneNumber: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String },
     role: { type: String, enum: ['user', 'admin', 'doctor', 'staff'], default: 'user' }
 });

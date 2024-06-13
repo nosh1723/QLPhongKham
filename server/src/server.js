@@ -7,6 +7,7 @@ const serviceRoutes = require('./routes/serviceRoutes');
 const scheduleRoutes = require('./routes/scheduleRoutes');
 const workHourRoutes = require('./routes/workHourRoutes');
 const branchRoutes = require('./routes/branchRoutes'); 
+const errorMiddleware = require('./middleware/errorMiddleware')
 require('dotenv').config()
 
 const app = express();
@@ -18,12 +19,14 @@ app.use(express.json());
 app.use(cors());
 
 // Định tuyến
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes); 
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/schedules', scheduleRoutes);
 app.use('/api/workhours', workHourRoutes);
 app.use('/api/branch', branchRoutes);
+
+app.use(errorMiddleware)
 
 const PORT = process.env.PORT || 5000;
 // Kết nối tới MongoDB bằng chuỗi kết nối từ .env
