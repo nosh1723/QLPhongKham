@@ -1,16 +1,12 @@
-/*
 const mongoose = require('mongoose');
-const ServiceSchema = require('./Service'); 
+const Schema = mongoose.Schema;
 
-
-const ServiceCategorySchema = new mongoose.Schema({
-    code: { type: String, required: true, unique: true },
-    name: { type: String, required: true, unique: true },
-    services: [ServiceSchema]
+const ServiceCategorySchema = new Schema({
+    code: { type: String, required: true,},
+    name: { type: String, required: true },
+    services: [{ type: String, ref: 'Service' }]  // Danh sách dịch vụ
 }, {
     timestamps: true
 });
 
 module.exports = mongoose.model('ServiceCategory', ServiceCategorySchema);
-
-*/
