@@ -17,7 +17,7 @@ export default observer(function LoginRes() {
     const [limit, setLimit] = useState(0)
     const isIos = Platform.OS === "ios"
 
-    const { isLoading, user, code, searchObject, handleSendEmailCode, handleRegister} = useStore().auth
+    const { isLoading, code, searchObject, handleSendEmailCode, handleRegister} = useStore().auth
 
     useEffect(() => {
         if(limit > 0) {

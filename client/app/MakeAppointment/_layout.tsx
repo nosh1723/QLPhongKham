@@ -4,7 +4,7 @@ import HomeFuncList from "../Home/HomeFuncList";
 import HomeDoctor from "../Home/HomeDoctor";
 import HomeService from "../Home/HomeService";
 import CommonButton from '@/components/CommonButton';
-import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from "expo-router";
 import { EvilIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
@@ -15,23 +15,25 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { getDateFormat, getDateTimeFormat } from '@/constants/LocalFunction';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { useStore } from "@/stores";
+
+
 export default function Makeappointment() {
     const [date, setDate] = useState(new Date());
-    const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
     const isIos = Platform.OS === "ios"
-    const onChange = (event, selectedDate) => {
+
+    const {doctor} = useStore().home
+
+
+    const onChange = (event: any, selectedDate: any) => {
         if (!isIos) {
             const currentDate = selectedDate;
             setShow(false);
             setDate(currentDate);
         }
     };
-    const showMode = (currentMode) => {
-        setShow(true);
-        setMode(currentMode);
-    };
-    const snapPoints = useMemo(() => ['25%', '50%'], [])
+    
     const bottomSheetRef = useRef<BottomSheet>(null);
     const handleSheetChanges = useCallback((index: number) => {
         console.log('handleSheetChanges', index);
@@ -40,40 +42,44 @@ export default function Makeappointment() {
     return (
         <GestureHandlerRootView >
             <>
-                <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-                    <View style={{ backgroundColor: '#f0f5fa' }}>
-                        <View style={{ flexDirection: 'row', padding: 10, backgroundColor: '#fff', marginBottom: 10 }}>
-                            <Text style={{ height: 20, width: 20, borderRadius: 20, textAlign: 'center', backgroundColor: '#696969', color: "#fff" }}>1</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10, backgroundColor: '#fff' }}>
+                        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center'}}>
+                            <View style={{ borderRadius: 20, width: 24, height: 24, justifyContent: "center", alignItems: "center", backgroundColor: '#696969', }}><Text style={{  textAlign: 'center', color: "#fff" }}>1</Text></View>
                             <Text style={{ marginLeft: 5, fontSize: 13 }}>Chọn lịch khám</Text>
-                            <AntDesign name="right" size={16} color="black" style={{ marginLeft: 12, marginRight: 12 }} />
-                            <Text style={{ height: 20, width: 20, borderRadius: 20, textAlign: 'center', backgroundColor: '#696969', color: "#fff" }}>2</Text>
+                            <Entypo name="chevron-right" size={18} color="#ccc"  style={{ marginHorizontal: 8 }}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center'}}>
+                        <View style={{ borderRadius: 20, width: 24, height: 24, justifyContent: "center", alignItems: "center", backgroundColor: '#696969', }}><Text style={{  textAlign: 'center', color: "#fff" }}>2</Text></View>
                             <Text style={{ marginLeft: 5, fontSize: 13 }}>Xác nhận</Text>
-                            <AntDesign name="right" size={16} color="black" style={{ marginLeft: 12, marginRight: 12 }} />
-                            <Text style={{ height: 20, width: 20, borderRadius: 20, textAlign: 'center', backgroundColor: '#696969', color: "#fff" }}>3</Text>
+                            <Entypo name="chevron-right" size={18} color="#ccc"  style={{ marginHorizontal: 8 }}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center'}}>
+                            <View style={{ borderRadius: 20, width: 24, height: 24, justifyContent: "center", alignItems: "center", backgroundColor: '#696969', }}><Text style={{  textAlign: 'center', color: "#fff" }}>3</Text></View>
                             <Text style={{ marginLeft: 5, fontSize: 13 }}>Nhận lịch hẹn</Text>
-                        </View>
-                        <View style={{ flexDirection: "row", padding: 12, backgroundColor: '#fff', marginBottom: 5 }}>
-                            <Image containerStyle={{ width: 100, height: 100, borderRadius: 1000, marginBottom: 10, marginRight: 15 }} source={{ uri: "https://i.pinimg.com/736x/7d/9d/ed/7d9ded7751b328b1000bcfe4c1dc7727.jpg" }} />
+                        </TouchableOpacity>
+                    </View>
+                <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+                    <View style={{ backgroundColor: '#f0f5fa', marginTop: 10, flexDirection: "column", alignItems: "center" }}>
+                        
+                        <View style={{ flexDirection: "row", padding: 12, backgroundColor: '#fff', marginBottom: 5, width: "92%", borderRadius: 20, alignItems: "center" }}>
+                            <Image containerStyle={{ width: 70, height: 70, borderRadius: 1000, marginRight: 15 }} source={{ uri: "https://i.pinimg.com/736x/7d/9d/ed/7d9ded7751b328b1000bcfe4c1dc7727.jpg" }} />
                             <View>
-                                <Text style={{ fontSize: 18 }}>BS. CK2</Text>
-                                <Text style={{ fontSize: 20, fontWeight: 500 }}>
-                                    Lê Thị Minh Hồng
+                                <Text style={{ fontSize: 18, fontWeight: 500 }}>
+                                    {doctor?.name}
                                 </Text>
                                 <View style={{ flexDirection: 'row', alignItems: "center", paddingVertical: 5 }}>
                                     <MaterialCommunityIcons name="check-decagram" size={16} color="#007bfc" style={{ paddingRight: 3 }} />
                                     <Text style={{ color: "#007bfc" }}>Bác sĩ</Text>
                                 </View>
-                                <Text><Text style={{ fontWeight: 500 }}>24</Text> năm kinh nghiệm</Text>
-                                <Text numberOfLines={1}>Cơ sở 1: Đường tam trinh, phố đèn xanh</Text>
                             </View>
                         </View>
                         <View style={styles.container}>
                             <View>
-                                <View>
+                                <View >
                                     <Text style={{ fontWeight: '500', fontSize: 16, }}>Đặt lịch khám này cho:</Text>
                                 </View>
-                                < View style={{ marginTop: 10, backgroundColor: '#ffffff', borderRadius: 15, }}>
-                                    <View style={{ padding: 12, }}>
+                                < View style={{ marginTop: 10, backgroundColor: "#e1e8f2", borderRadius: 15, marginBottom: 15,  }}>
+                                    <View style={{ padding: 12, borderRadius: 15, backgroundColor: "#fff"}}>
                                         <View style={styles.textrow}>
                                             <Text >Họ và tên</Text>
                                             <Text style={styles.textcell}>Nguyễn Khắc Lương</Text>
@@ -91,17 +97,18 @@ export default function Makeappointment() {
                                             <Text style={styles.textcell}>0898584206</Text>
                                         </View>
                                     </View>
-                                    <View style={{ flexDirection: 'row', backgroundColor: '#e1e8f2', height: 46, padding: 15, justifyContent: 'space-between', borderBottomLeftRadius: 15, borderBottomRightRadius: 15 }}>
+                                    <View style={{ flexDirection: 'row', backgroundColor: '#e1e8f2', padding: 15, justifyContent: 'space-between', borderBottomLeftRadius: 15, borderBottomRightRadius: 15 }}>
                                         <Text style={{ textAlign: 'center', fontWeight: '400' }}>Xem chi tiết</Text>
                                         <Text style={{ color: 'blue', textAlign: 'center', }}>Sửa hồ sơ</Text>
                                     </View>
                                 </View>
-                                <View>
-                                    <Text style={{ fontWeight: '500', fontSize: 16, marginTop: 10, marginBottom: 10 }}>Chọn Ngày khám</Text>
+
+                                <Text style={{ fontWeight: '500', fontSize: 16, marginTop: 10, marginBottom: 10 }}>Chọn Ngày khám</Text>
+                                <View style={{backgroundColor: "#fff", borderRadius: 15, }}>
                                     <CommonButton onPress={() => {
                                         show ? bottomSheetRef.current?.close() : bottomSheetRef.current?.expand()
                                         setShow(!show)
-                                    }} style={{ borderWidth: 1, borderColor: "#e7ebed", borderRadius: 8 }} color='transparent'>
+                                    }} style={{ borderWidth: 1, borderColor: "#e7ebed", borderRadius: 8, marginVertical: 15, marginHorizontal: 10 }} color='#transparent'>
                                         <View style={{ flexDirection: 'row', alignItems: "center" }}>
                                             <Text style={{ fontWeight: 600 }}>{getDateFormat(date)} </Text>
                                             <FontAwesome name="angle-down" size={20} color="black" style={{ paddingLeft: 3, marginTop: -3 }} />
@@ -110,48 +117,52 @@ export default function Makeappointment() {
                                     {!isIos && show && <DateTimePicker
                                         testID="dateTimePicker"
                                         value={date}
-                                        mode={mode}
+                                        mode={'date'}
                                         is24Hour={true}
                                         onChange={onChange}
                                         display='spinner'
                                         style={{ height: 120 }}
                                     />}
+                                    
                                 </View>
                                 <Text style={{ fontWeight: '500', fontSize: 16, marginTop: 10 }}>Chọn giờ khám</Text>
-                                <View style={styles.table}>
-                                    {/* Header */}
-                                    <View style={styles.row}>
-                                        <Text style={styles.cellHeader}>Buổi sáng</Text>
-                                        <Text style={styles.cellHeader}>Buổi chiều</Text>
-                                    </View>
-                                    {/* Rows */}
-                                    <View style={styles.row}>
-                                        <Text style={styles.cell}>17:30 - 17:40</Text>
-                                        <Text style={styles.cell}>17:40 - 17:50</Text>
-                                        <Text style={styles.cell}>17:50 - 18:00</Text>
-                                    </View>
-                                    <View style={styles.row}>
-                                        <Text style={styles.cell}>18:00 - 18:10</Text>
-                                        <Text style={styles.cell}>18:10 - 18:20</Text>
-                                        <Text style={styles.cell}>18:20 - 18:30</Text>
-                                    </View>
-                                    <View style={styles.row}>
-                                        <Text style={styles.cell}>18:30 - 18:40</Text>
-                                        <Text style={styles.cell}>18:40 - 18:50</Text>
-                                        <Text style={styles.cell}>18:50 - 19:00</Text>
-                                    </View>
-                                    <View style={styles.row}>
-                                        <Text style={styles.cell}>19:00 - 19:10</Text>
-                                        <Text style={styles.cell}>19:10 - 19:20</Text>
-                                        <Text style={styles.cell}>19:20 - 19:30</Text>
+                                    <View style={{}}>
+                                        <View style={{flexDirection: 'row', width: "100%", backgroundColor: "#fff", borderRadius: 15}}>
+                                            <TouchableOpacity style={{backgroundColor: "#e1e8f2", padding: 10, flex: 1, flexDirection: "row", justifyContent: "center", borderTopRightRadius: 15, borderTopLeftRadius: 15, borderBottomRightRadius: 15}}><Text>Buổi sáng</Text></TouchableOpacity>
+                                            <TouchableOpacity style={{backgroundColor: "#fff", padding: 10, flex: 1, flexDirection: "row", justifyContent: "center", borderTopRightRadius: 15, borderTopLeftRadius: 15}}><Text>Buổi chiều</Text></TouchableOpacity>
+                                        </View>
+                                        <View style={[styles.table, { backgroundColor: "#fff",borderBottomRightRadius: 15, borderBottomLeftRadius: 15, padding: 10, flexDirection: 'column', alignItems: 'center'}]}>
+                                            {/* Header */}
+                                            {/* Rows */}
+                                            <View style={styles.row}>
+                                                <Text style={styles.cell}>17:30 - 17:40</Text>
+                                                <Text style={styles.cell}>17:40 - 17:50</Text>
+                                                <Text style={styles.cell}>17:50 - 18:00</Text>
+                                            </View>
+                                            <View style={styles.row}>
+                                                <Text style={styles.cell}>18:00 - 18:10</Text>
+                                                <Text style={styles.cell}>18:10 - 18:20</Text>
+                                                <Text style={styles.cell}>18:20 - 18:30</Text>
+                                            </View>
+                                            <View style={styles.row}>
+                                                <Text style={styles.cell}>18:30 - 18:40</Text>
+                                                <Text style={styles.cell}>18:40 - 18:50</Text>
+                                                <Text style={styles.cell}>18:50 - 19:00</Text>
+                                            </View>
+                                            <View style={styles.row}>
+                                                <Text style={styles.cell}>19:00 - 19:10</Text>
+                                                <Text style={styles.cell}>19:10 - 19:20</Text>
+                                                <Text style={styles.cell}>19:20 - 19:30</Text>
+                                            </View>
+                                        </View>
+                                        <View>
+                                            <Text style={{ fontWeight: '500', fontSize: 16, marginTop: 30 }}>Thông tin bổ sung (Không bắt buộc)</Text>
+                                            <Text style={{ marginTop: 8 }}>Bạn có thể cung cấp thêm các thông tin như lý do khám, triệu chứng, đơn thuốc sử dụng gần đây</Text>
+                                            <Text style={{ color: 'blue', height: 40, backgroundColor: '#ffffff', lineHeight: 40, textAlign: 'center', marginTop: 15, borderRadius: 10, }}>Tôi muốn gửi thêm thông tin </Text>
+                                        </View>
                                     </View>
                                 </View>
-                                <View>
-                                    <Text style={{ fontWeight: '500', fontSize: 16, marginTop: 30 }}>Thông tin bổ sung (Không bắt buộc)</Text>
-                                    <Text style={{ marginTop: 8 }}>Bạn có thể cung cấp thêm các thông tin như lý do khám, triệu chứng, đơn thuốc sử dụng gần đây</Text>
-                                    <Text style={{ color: 'blue', height: 40, backgroundColor: '#ffffff', lineHeight: 40, textAlign: 'center', marginTop: 15, borderRadius: 10, }}>Tôi muốn gửi thêm thông tin </Text>
-                                </View>
-                            </View>
+                                
                         </View>
                     </View>
                 </ScrollView>
@@ -172,7 +183,7 @@ export default function Makeappointment() {
                             <DateTimePicker
                                 testID="dateTimePicker"
                                 value={date}
-                                mode={mode}
+                                mode={'date'}
                                 is24Hour={true}
                                 onChange={onChange}
                                 display='spinner'
@@ -210,7 +221,6 @@ const styles = StyleSheet.create({
     table: {
         borderWidth: 0,
         borderColor: '#000',
-        marginTop: 10,
         backgroundColor: '#F8F8F8',
 
     },

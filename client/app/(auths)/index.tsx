@@ -16,7 +16,7 @@ import * as Yup from "yup"
 export default observer(function LoginRes() {
     const navigation = useNavigation()
 
-    const { isLoading, user, reset, searchObject, handleLogin} = useStore().auth
+    const { user, isLoading,  reset, searchObject, handleLogin} = useStore().auth
 
     React.useEffect(() => {
         if(user) {
@@ -24,7 +24,9 @@ export default observer(function LoginRes() {
                 type: "success",
                 text1: "Đăng ký thành công"
             }) 
-        } 
+        }
+        
+        return reset()
     },[])
 
     const validationSchema = Yup.object().shape({
@@ -37,7 +39,10 @@ export default observer(function LoginRes() {
             initialValues={searchObject}
             validationSchema={validationSchema}
             onSubmit={values => {
-                handleLogin(values).then(data => navigation.navigate('(tabs)'))
+                handleLogin(values).then(data => {
+                    if(Boolean(data)) navigation.navigate('(tabs)')
+                    else console.log(data);
+                })
             }}
         >
             {({ values, handleSubmit, handleChange, errors, touched }) => (

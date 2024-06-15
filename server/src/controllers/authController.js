@@ -106,16 +106,21 @@ exports.login = async (req, res) => {
 
     try {
         const user = await User.findOne({ email });
-        if (!user) return res.status(404).json({ message: 'Người dùng không tồn tại', status: 0 });
+        if (!user) return res.status(200).json({ message: 'Người dùng không tồn tại', status: 0 });
 
-        console.log(password);
-        const isMatch = bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ message: 'Thông tin đăng nhập không hợp lệ', status: 0 });
+        const isMatch = await bcrypt.compare(password, user.password);
+        // console.log('isMatch: ',isMatch, 'password: ', password);
+        if (!isMatch) return res.status(200).json({ message: 'Thông tin đăng nhập không hợp lệ', status: 0 });
 
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '4d' });
-        res.json({ token, status: 1, user: {
-            email: user.email
-        } });
+        res.status(200).json({ 
+            token, 
+            status: 1, 
+            user: {
+                email: user.email
+            },
+            message: "Đăng nhập thành công!"
+        });
     } catch (err) {
         res.status(500).json({ error: err.message, status: 0 });
     }

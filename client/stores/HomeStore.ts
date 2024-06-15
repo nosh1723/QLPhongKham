@@ -1,9 +1,10 @@
+import { Doctor } from "@/models/doctor";
 import { getDoctor, pagingDoctor } from "@/services/DoctorServices";
 import { makeAutoObservable, runInAction } from "mobx";
 
 export default class HomeStore {
     pageDoctor = []
-    doctor = null
+    doctor = new Doctor()
     isLoading = false
 
     constructor() {
@@ -32,7 +33,9 @@ export default class HomeStore {
             this.setIsLoading(true)
             
             const { data } = await getDoctor({id})
-            this.doctor = data;
+            runInAction(() => {
+                this.doctor = data
+            })
             this.setIsLoading(false)
         } catch (error) {
             console.log(error);
@@ -46,7 +49,7 @@ export default class HomeStore {
 
     resetStore = () => {
         this.pageDoctor = []
-        this.doctor = null
+        this.doctor = new Doctor()
         this.isLoading = false
     }
 }
