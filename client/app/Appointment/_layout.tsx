@@ -13,7 +13,6 @@ const AppointmentIndex = () => {
         <ViewComponent style={{paddingTop: 10, marginVertical: 0}}>
             <ScrollView showsVerticalScrollIndicator={false} style={{marginTop: -10}}>
                     <AppointmentList/>
-                    <AppointmentList/>
             </ScrollView>
         </ViewComponent>
     );

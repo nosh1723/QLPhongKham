@@ -1,1 +1,1 @@
-export const API_ENPOINT = "http://192.168.1.6:5000/api"
+export const API_ENPOINT = "http://192.168.0.130:5000/api"
