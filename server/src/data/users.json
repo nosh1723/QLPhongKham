@@ -1,11 +1,11 @@
 [
     {
-        "phoneNumber": "0987654321",
+        "email": "123@gmail.com",
         "password": "password123",
         "role": "user"
     },
     {
-        "phoneNumber": "0976543210",
+        "email": "456@gmail.com",
         "password": "password123",
         "role": "user"
     }

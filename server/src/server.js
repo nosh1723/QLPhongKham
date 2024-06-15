@@ -6,9 +6,10 @@ const doctorRoutes = require('./routes/doctorRoutes');
 const serviceRoutes = require('./routes/serviceRoutes');
 const scheduleRoutes = require('./routes/scheduleRoutes');
 const workHourRoutes = require('./routes/workHourRoutes');
-const branchRoutes = require('./routes/branchRoutes'); 
-const errorMiddleware = require('./middleware/errorMiddleware')
-require('dotenv').config()
+const branchRoutes = require('./routes/branchRoutes');
+const appointmentRoutes = require('./routes/appointmentRoutes'); 
+const errorMiddleware = require('./middleware/errorMiddleware');
+require('dotenv').config();
 
 const app = express();
 
@@ -25,10 +26,12 @@ app.use('/api/services', serviceRoutes);
 app.use('/api/schedules', scheduleRoutes);
 app.use('/api/workhours', workHourRoutes);
 app.use('/api/branch', branchRoutes);
+app.use('/api/appointments', appointmentRoutes); 
 
-app.use(errorMiddleware)
+app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 5000;
+
 // Kết nối tới MongoDB bằng chuỗi kết nối từ .env
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
