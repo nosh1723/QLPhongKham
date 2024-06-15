@@ -5,7 +5,7 @@ const appointmentController = require('../controllers/appointmentController');
 // Route để đặt lịch hẹn
 router.post('/book', appointmentController.bookAppointment);
 
-// Route để tìm kiếm lịch hẹn theo mã
-router.get('/find/:appointmentCode', appointmentController.findAppointmentByCode);
+// Route để tìm lịch hẹn bằng _id
+router.get('/:id', appointmentController.findAppointmentById);
 
 module.exports = router;

@@ -22,11 +22,14 @@ router.get('/doctor/:code', async (req, res) => {
     }
 });
 
-// Lấy danh sách bác sĩ cung cấp một dịch vụ dựa trên tên dịch vụ
-router.get('/service/:name', async (req, res) => {
+// Lấy thông tin một dịch vụ theo ID
+router.get('/id/:id', async (req, res) => {
     try {
-        const doctorServices = await DoctorService.find({ service_name: req.params.name });
-        res.json(doctorServices);
+        const doctorService = await DoctorService.findById(req.params.id);
+        if (!doctorService) {
+            return res.status(404).json({ message: 'Không tìm thấy dịch vụ' });
+        }
+        res.json(doctorService);
     } catch (error) {
         res.status(500).json({ message: 'Lỗi server' });
     }

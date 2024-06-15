@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/register', register);
 router.post('/login', login);
 router.get('/profile', authMiddleware, getProfile);
-router.post('/check-phone', checkPhoneNumber);
+//router.post('/check-phone', checkPhoneNumber);
 router.post('/verification', verification)
 
 module.exports = router;

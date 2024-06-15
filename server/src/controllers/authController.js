@@ -60,7 +60,7 @@ exports.verification = async(req, res) => {
         })
     }
 }
-
+/*
 // Kiểm tra tính hợp lệ của số điện thoại
 exports.checkPhoneNumber = async (req, res) => {
     const { phoneNumber } = req.body;
@@ -79,7 +79,7 @@ exports.checkPhoneNumber = async (req, res) => {
         res.status(500).json({ error: err.message, status: 0 });
     }
 };
-
+*/
 
 // Đăng ký người dùng mới
 exports.register = asyncHandle(async (req, res) => {
@@ -108,14 +108,11 @@ exports.login = async (req, res) => {
         const user = await User.findOne({ email });
         if (!user) return res.status(404).json({ message: 'Người dùng không tồn tại', status: 0 });
 
-        console.log(password);
-        const isMatch = bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ message: 'Thông tin đăng nhập không hợp lệ', status: 0 });
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return res.status(400).json({ message: 'Thông tin đăng nhập không chính xác', status: 0 });
 
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '4d' });
-        res.json({ token, status: 1, user: {
-            email: user.email
-        } });
+        res.json({ token, status: 1, user: { email: user.email } });
     } catch (err) {
         res.status(500).json({ error: err.message, status: 0 });
     }
