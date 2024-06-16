@@ -30,4 +30,17 @@ router.get('/:title/:startTime/:endTime/:typeShiftWork', async (req, res) => {
     }
 });
 
+// Lấy thông tin một giờ làm việc theo ID
+router.get('/id/:id', async (req, res) => {
+    try {
+        const workHour = await WorkHour.findById(req.params.id);
+        if (!workHour) {
+            return res.status(404).json({ message: 'Không tìm thấy giờ làm việc' });
+        }
+        res.json(workHour);
+    } catch (error) {
+        res.status(500).json({ message: 'Lỗi server' });
+    }
+});
+
 module.exports = router;

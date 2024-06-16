@@ -27,5 +27,16 @@ router.get('/:doctor_code/:date', async (req, res) => {
         res.status(500).json({ message: 'Lỗi server' });
     }
 });
-
+// Lấy thông tin một lịch làm việc theo ID
+router.get('/id/:id', async (req, res) => {
+    try {
+        const schedule = await Schedule.findById(req.params.id);
+        if (!schedule) {
+            return res.status(404).json({ message: 'Không tìm thấy lịch làm việc' });
+        }
+        res.json(schedule);
+    } catch (error) {
+        res.status(500).json({ message: 'Lỗi server' });
+    }
+});
 module.exports = router;
