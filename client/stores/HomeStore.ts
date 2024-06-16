@@ -32,7 +32,7 @@ export default class HomeStore {
         try {
             this.setIsLoading(true)
             
-            const { data } = await getDoctor({id})
+            const { data } = await getDoctor(id)
             runInAction(() => {
                 this.doctor = data
             })
