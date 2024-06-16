@@ -46,7 +46,7 @@ const getAllDoctors = async (req, res) => {
 // Hàm để lấy thông tin chi tiết của bác sĩ theo ID, bao gồm chi tiết chi nhánh và dịch vụ
 const getDoctorById = async (req, res) => {
     try {
-        const doctor = await Doctor.findOne({ code: req.params.id })
+        const doctor = await Doctor.findOne({ _id: req.params.id })
             .populate({
                 path: 'services',
                 populate: {
