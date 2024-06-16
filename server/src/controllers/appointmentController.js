@@ -1,40 +1,75 @@
+const mongoose = require('mongoose');
 const Appointment = require('../models/Appointment');
-const Counter = require('../models/Counter');
+const Service = require('../models/Service');
+const Doctor = require('../models/Doctor');
+const Branch = require('../models/Branch');
 
 // Đặt lịch hẹn
 exports.bookAppointment = async (req, res) => {
     try {
-        const { doctorCode, branchCode, serviceCode, date, time } = req.body;
+        const { doctorId, branchId, serviceId, date, time } = req.body;
 
-        // Kiểm tra xem thời điểm hẹn có sẵn không
-        const isSlotAvailable = await checkAppointmentAvailability(doctorCode, date, time);
+        // Chỉ xét phần ngày của 'date' để kiểm tra tính khả dụng
+        const appointmentDate = new Date(date);
+        appointmentDate.setHours(0, 0, 0, 0);  // Đặt giờ về 00:00:00.000
+
+        // Kiểm tra tính khả dụng của lịch hẹn
+        const isSlotAvailable = await checkAppointmentAvailability(doctorId, appointmentDate, time);
 
         if (!isSlotAvailable) {
             return res.status(400).json({ success: 0, message: 'Đã có lịch hẹn khác vào thời điểm này.' });
         }
 
-        // Tạo mã lịch hẹn mới
-        const appointmentCode = await generateNextAppointmentCode();
+        // Đảm bảo doctorId, branchId và serviceId là ObjectId hợp lệ
+        let doctorObjectId, branchObjectId, serviceObjectId;
+        try {
+            doctorObjectId = new mongoose.Types.ObjectId(doctorId);
+            branchObjectId = new mongoose.Types.ObjectId(branchId);
+            serviceObjectId = new mongoose.Types.ObjectId(serviceId);
+        } catch (error) {
+            console.error('Định dạng ID không hợp lệ:', error);
+            return res.status(400).json({ success: 0, message: 'ID không hợp lệ.' });
+        }
 
-        // Lưu thông tin lịch hẹn vào database
+        // Truy vấn thông tin bác sĩ
+        const doctor = await Doctor.findById(doctorObjectId);
+        if (!doctor) {
+            return res.status(404).json({ success: 0, message: 'Không tìm thấy bác sĩ.' });
+        }
+
+        // Truy vấn thông tin chi nhánh
+        const branch = await Branch.findById(branchObjectId);
+        if (!branch) {
+            return res.status(404).json({ success: 0, message: 'Không tìm thấy chi nhánh.' });
+        }
+
+        // Truy vấn thông tin dịch vụ
+        const service = await Service.findOne({ _id: serviceObjectId });
+        if (!service) {
+            return res.status(404).json({ success: 0, message: 'Không tìm thấy dịch vụ.' });
+        }
+
+        // Sinh mã lịch hẹn (ví dụ)
+        const appointmentCode = generateAppointmentCode(doctorId, branchId, serviceId, appointmentDate, time);
+
+        // Tạo mới lịch hẹn và lưu vào cơ sở dữ liệu
         const appointment = new Appointment({
-            appointmentCode,
-            doctorCode,
-            branchCode,
-            serviceCode,
-            date,
-            time
+            doctorId: doctorObjectId,
+            branchId: branchObjectId,
+            serviceId: serviceObjectId,
+            date: appointmentDate,
+            time,
+            price: service.price,
+            appointmentCode // Gán appointmentCode đã sinh
         });
 
         await appointment.save();
 
+        // Trả về thông tin lịch hẹn đã được đặt thành công
         res.status(201).json({
             success: 1,
             message: 'Lịch hẹn đã được đặt thành công.',
-            appointment: {
-                ...appointment.toObject(),
-                price: getServicePrice(serviceCode) // Thêm giá dịch vụ vào thông tin lịch hẹn
-            }
+            appointment
         });
     } catch (error) {
         console.error('Lỗi khi đặt lịch hẹn:', error);
@@ -42,58 +77,32 @@ exports.bookAppointment = async (req, res) => {
     }
 };
 
-// Tìm kiếm lịch hẹn theo mã
-exports.findAppointmentByCode = async (req, res) => {
-    try {
-        const appointmentCode = req.params.appointmentCode;
+// Hàm kiểm tra tính khả dụng của lịch hẹn
+async function checkAppointmentAvailability(doctorId, date, time) {
+    const existingAppointment = await Appointment.findOne({ doctorId, date, time });
+    return !existingAppointment;
+}
 
-        // Tìm kiếm lịch hẹn trong database
-        const appointment = await Appointment.findOne({ appointmentCode });
+// Hàm sinh mã lịch hẹn (ví dụ)
+function generateAppointmentCode(doctorId, branchId, serviceId, appointmentDate, time) {
+    // Logic ví dụ để sinh mã lịch hẹn duy nhất
+    return `${doctorId}_${branchId}_${serviceId}_${appointmentDate.getTime()}_${time}`;
+}
+
+// Tìm lịch hẹn bằng _id
+exports.findAppointmentById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const appointment = await Appointment.findById(id);
 
         if (!appointment) {
-            return res.status(404).json({ success: 0, message: 'Không tìm thấy lịch hẹn.', appointment: null });
+            return res.status(404).json({ success: 0, message: 'Lịch hẹn không tồn tại.' });
         }
 
-        res.status(200).json({
-            success: 1,
-            message: 'Tìm thấy lịch hẹn.',
-            appointment: {
-                ...appointment.toObject(),
-                price: getServicePrice(appointment.serviceCode) // Thêm giá dịch vụ vào thông tin lịch hẹn
-            }
-        });
+        // Trả về thông tin lịch hẹn đã tìm thấy
+        res.status(200).json({ success: 1, appointment });
     } catch (error) {
         console.error('Lỗi khi tìm kiếm lịch hẹn:', error);
         res.status(500).json({ success: 0, message: 'Đã xảy ra lỗi khi tìm kiếm lịch hẹn.' });
     }
 };
-
-// Kiểm tra xem thời điểm hẹn có sẵn không
-async function checkAppointmentAvailability(doctorCode, date, time) {
-    const existingAppointment = await Appointment.findOne({ doctorCode, date, time });
-    return !existingAppointment;
-}
-
-// Sinh mã lịch hẹn tự động
-async function generateNextAppointmentCode() {
-    const counter = await Counter.findOneAndUpdate(
-        { model: 'Appointment', field: 'appointmentCode' },
-        { $inc: { count: 1 } },
-        { new: true, upsert: true }
-    );
-
-    return `AP${counter.count}`;
-}
-
-// Lấy giá dịch vụ từ serviceCode
-function getServicePrice(serviceCode) {
-    // Giả sử dữ liệu giá dịch vụ lưu trong một cấu trúc nào đó, ví dụ:
-    const servicePrices = {
-        'DV001': 200000,
-        'DV002': 300000,
-        'DV003': 1000000,
-        // Thêm các giá dịch vụ khác nếu cần
-    };
-
-    return servicePrices[serviceCode] || 0; // Trả về giá dịch vụ, nếu không tìm thấy trả về 0
-}

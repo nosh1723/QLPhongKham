@@ -8,20 +8,20 @@ router.get('/', async (req, res) => {
         const branches = await Branch.find();
         res.json(branches);
     } catch (error) {
-        res.status(500).json({ message: 'Lỗi máy chủ nội bộ' });
+        res.status(500).json({ message: 'Lỗi máy chủ nội bộ' }); // Trả về lỗi nếu có lỗi máy chủ
     }
 });
 
-// Lấy chi nhánh theo mã
-router.get('/:code', async (req, res) => {
+// Lấy chi nhánh theo _id
+router.get('/:id', async (req, res) => {
     try {
-        const branch = await Branch.findOne({ code: req.params.code });
+        const branch = await Branch.findById(req.params.id);
         if (!branch) {
-            return res.status(404).json({ message: 'Không tìm thấy chi nhánh' });
+            return res.status(404).json({ message: 'Không tìm thấy chi nhánh' }); // Trả về thông báo khi không tìm thấy chi nhánh
         }
-        res.json(branch);
+        res.json(branch); // Trả về chi nhánh nếu tìm thấy
     } catch (error) {
-        res.status(500).json({ message: 'Lỗi máy chủ nội bộ' });
+        res.status(500).json({ message: 'Lỗi máy chủ nội bộ' }); // Trả về lỗi nếu có lỗi máy chủ
     }
 });
 

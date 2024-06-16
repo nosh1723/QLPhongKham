@@ -12,10 +12,10 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Lấy thông tin một dịch vụ theo mã
-router.get('/:code', async (req, res) => {
+// Lấy thông tin một dịch vụ theo ID
+router.get('/:id', async (req, res) => {
     try {
-        const service = await Service.findOne({ code: req.params.code });
+        const service = await Service.findById(req.params.id);
         if (!service) {
             return res.status(404).json({ message: 'Không tìm thấy dịch vụ' });
         }

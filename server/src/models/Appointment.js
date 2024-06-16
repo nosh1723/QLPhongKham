@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 // Schema cho lịch hẹn
 const AppointmentSchema = new mongoose.Schema({
-    appointmentCode: { type: String, required: true, unique: true }, // Mã lịch hẹn tự tăng
-    doctorCode: { type: String, required: true }, // Mã bác sĩ
-    branchCode: { type: String, required: true }, // Mã chi nhánh
-    serviceCode: { type: String, required: true }, // Mã dịch vụ
+    doctorId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Doctor' }, // ID bác sĩ
+    branchId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Branch' }, // ID chi nhánh
+    serviceId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Service' }, // ID dịch vụ
     date: { type: Date, required: true }, // Ngày hẹn
     time: { type: Date, required: true }, // Giờ hẹn
     status: { type: String, enum: ['Booked', 'Cancelled'], default: 'Booked' }, // Trạng thái lịch hẹn
     createdAt: { type: Date, default: Date.now }, // Ngày tạo
+    price: { type: Number, required: true } // Giá dịch vụ
 });
 
 module.exports = mongoose.model('Appointment', AppointmentSchema);

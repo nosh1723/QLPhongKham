@@ -5,7 +5,7 @@ const errorMiddleware = (err, _req, res, next) => {
         message: err.message,
         statusCode,
         stack: err.stack
-    })
-}
+    });
+};
 
-module.exports = errorMiddleware
+module.exports = errorMiddleware;
