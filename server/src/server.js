@@ -8,6 +8,8 @@ const scheduleRoutes = require('./routes/scheduleRoutes');
 const workHourRoutes = require('./routes/workHourRoutes');
 const branchRoutes = require('./routes/branchRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes'); 
+const patientRoutes = require('./routes/patientRoutes');
+const workHouseDoctorRoutes = require('./routes/workHouseDoctorRoutes');
 const errorMiddleware = require('./middleware/errorMiddleware');
 require('dotenv').config();
 
@@ -27,6 +29,8 @@ app.use('/api/schedules', scheduleRoutes);
 app.use('/api/workhours', workHourRoutes);
 app.use('/api/branch', branchRoutes);
 app.use('/api/appointments', appointmentRoutes); 
+app.use('/api/patient', patientRoutes);
+app.use('/api/workhouses', workHouseDoctorRoutes);
 
 app.use(errorMiddleware);
 

@@ -3,11 +3,12 @@ const Appointment = require('../models/Appointment');
 const Service = require('../models/Service');
 const Doctor = require('../models/Doctor');
 const Branch = require('../models/Branch');
+const Patient = require('../models/Patient'); // Import the Patient model
 
 // Đặt lịch hẹn
 exports.bookAppointment = async (req, res) => {
     try {
-        const { doctorId, branchId, serviceId, date, time } = req.body;
+        const { doctorId, branchId, serviceId, patientId, date, time } = req.body;
 
         // Chỉ xét phần ngày của 'date' để kiểm tra tính khả dụng
         const appointmentDate = new Date(date);
@@ -20,12 +21,13 @@ exports.bookAppointment = async (req, res) => {
             return res.status(400).json({ success: 0, message: 'Đã có lịch hẹn khác vào thời điểm này.' });
         }
 
-        // Đảm bảo doctorId, branchId và serviceId là ObjectId hợp lệ
-        let doctorObjectId, branchObjectId, serviceObjectId;
+        // Đảm bảo doctorId, branchId, serviceId và patientId là ObjectId hợp lệ
+        let doctorObjectId, branchObjectId, serviceObjectId, patientObjectId;
         try {
             doctorObjectId = new mongoose.Types.ObjectId(doctorId);
             branchObjectId = new mongoose.Types.ObjectId(branchId);
             serviceObjectId = new mongoose.Types.ObjectId(serviceId);
+            patientObjectId = new mongoose.Types.ObjectId(patientId);
         } catch (error) {
             console.error('Định dạng ID không hợp lệ:', error);
             return res.status(400).json({ success: 0, message: 'ID không hợp lệ.' });
@@ -49,6 +51,12 @@ exports.bookAppointment = async (req, res) => {
             return res.status(404).json({ success: 0, message: 'Không tìm thấy dịch vụ.' });
         }
 
+        // Truy vấn thông tin bệnh nhân
+        const patient = await Patient.findById(patientObjectId);
+        if (!patient) {
+            return res.status(404).json({ success: 0, message: 'Không tìm thấy bệnh nhân.' });
+        }
+
         // Sinh mã lịch hẹn (ví dụ)
         const appointmentCode = generateAppointmentCode(doctorId, branchId, serviceId, appointmentDate, time);
 
@@ -57,6 +65,7 @@ exports.bookAppointment = async (req, res) => {
             doctorId: doctorObjectId,
             branchId: branchObjectId,
             serviceId: serviceObjectId,
+            patientId: patientObjectId, // Gán patientId đã được truyền từ req.body
             date: appointmentDate,
             time,
             price: service.price,
