@@ -164,7 +164,7 @@ const DoctorIndex = () => {
                             }
                         </View>
                     </ScrollView>
-                    <View style={{ padding: 12, backgroundColor: "#fff", paddingBottom: isIos ? 30 : 15, borderTopWidth: .5, borderTopColor: "#e7ebed", flexDirection: 'row', gap: 10 }}>
+                    <View style={{ position: 'absolute', bottom: 0, padding: 12, backgroundColor: "#fff", paddingBottom: isIos ? 40 : 15, borderTopWidth: .5, borderTopColor: "#e7ebed", flexDirection: 'row', gap: 10 }}>
                         <TouchableOpacity onPress={() => navigation.navigate("(tabs)/message")} style={{ backgroundColor: "#007bfc", padding: 15, borderRadius: 10, flex: 1 }}><Text style={{ color: "#fff", fontSize: 16, fontWeight: 600, textAlign: 'center' }}>Chat với bác sĩ</Text></TouchableOpacity>
                         <TouchableOpacity onPress={() => navigation.navigate("MakeAppointment")} style={{ backgroundColor: "#006778", padding: 15, borderRadius: 10, flex: 1 }}><Text style={{ color: "#fff", fontSize: 16, fontWeight: 600, textAlign: 'center' }}>Đặt khám</Text></TouchableOpacity>
                     </View>

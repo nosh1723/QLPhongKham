@@ -112,7 +112,7 @@ exports.login = async (req, res) => {
         if (!isMatch) return res.status(400).json({ message: 'Thông tin đăng nhập không chính xác', status: 0 });
 
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '4d' });
-        res.json({ token, status: 1, user: { email: user.email } });
+        res.json({ token, status: 1, user: { email: user.email, id: user._id } });
     } catch (err) {
         res.status(500).json({ error: err.message, status: 0 });
     }
