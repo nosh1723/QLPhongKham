@@ -1,28 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const Service = require('../models/Service');
+const serviceController = require('../controllers/serviceController');
 
-// Lấy danh sách tất cả các dịch vụ
-router.get('/', async (req, res) => {
-    try {
-        const services = await Service.find();
-        res.json(services);
-    } catch (error) {
-        res.status(500).json({ message: 'Lỗi server' });
-    }
-});
+// Định nghĩa các route cho các hoạt động liên quan đến dịch vụ
 
-// Lấy thông tin một dịch vụ theo ID
-router.get('/:id', async (req, res) => {
-    try {
-        const service = await Service.findById(req.params.id);
-        if (!service) {
-            return res.status(404).json({ message: 'Không tìm thấy dịch vụ' });
-        }
-        res.json(service);
-    } catch (error) {
-        res.status(500).json({ message: 'Lỗi server' });
-    }
-});
+// Route để tạo mới một dịch vụ
+router.post('/services', serviceController.createService);
+
+// Route để lấy tất cả các dịch vụ
+router.get('/services', serviceController.getAllServices);
+
+// Route để lấy thông tin của một dịch vụ theo ID
+router.get('/services/:id', serviceController.getServiceById);
+
+// Route để cập nhật thông tin của một dịch vụ theo ID
+router.put('/services/:id', serviceController.updateServiceById);
+
+// Route để xóa một dịch vụ theo ID
+router.delete('/services/:id', serviceController.deleteServiceById);
 
 module.exports = router;
