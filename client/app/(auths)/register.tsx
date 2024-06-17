@@ -99,7 +99,6 @@ export default observer(function LoginRes() {
                                 </View>
                             </View>
                         </View>
-                        <Toast position="bottom" bottomOffset={20} visibilityTime={2000}/>
                         <Loading visible={isLoading} />
                     </View>
                 </ViewComponent>

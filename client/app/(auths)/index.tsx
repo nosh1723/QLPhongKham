@@ -1,7 +1,7 @@
 import { ScrollView, Text, View, TextInput, StyleSheet, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from "react-native";
 import * as React from "react";
 import CommonButton from '@/components/CommonButton';
-import { useNavigation } from "expo-router";
+import { Stack, useNavigation } from "expo-router";
 import ViewComponent from "@/components/ViewComponent";
 import { Formik } from "formik";
 import { style } from "@/styles";
@@ -12,9 +12,12 @@ import Toast from "react-native-toast-message";
 import Loading from "@/components/Loading";
 import { observer } from "mobx-react";
 import * as Yup from "yup"
+import { useDispatch } from "react-redux";
+import { addAuth } from "@/redux/reducers/authReducer";
 
 export default observer(function LoginRes() {
     const navigation = useNavigation()
+    const dispatch = useDispatch()
 
     const { user, isLoading,  reset, searchObject, handleLogin} = useStore().auth
 
@@ -40,7 +43,10 @@ export default observer(function LoginRes() {
             validationSchema={validationSchema}
             onSubmit={values => {
                 handleLogin(values).then(data => {
-                    if(Boolean(data)) navigation.navigate('(tabs)')
+                    if(Boolean(data)) {
+                        navigation.navigate('(tabs)')
+                        dispatch(addAuth(data))
+                    }
                     else console.log(data);
                 })
             }}
