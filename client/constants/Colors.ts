@@ -34,5 +34,6 @@ export const colors = {
   gray: "#ddd",
   red: "",
   black: "#000",
-  textGray: "#9eabb9"
+  textGray: "#9eabb9",
+  bgGray: "#f2f2f2"
 }

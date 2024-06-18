@@ -1,17 +1,19 @@
 
+import { Auth } from "@/models/auth";
 import { User } from "@/models/user";
 import { login, register, verification } from "@/services/AuthService";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { makeAutoObservable, runInAction } from "mobx";
 import Toast from "react-native-toast-message";
 
 interface Values {
-    email: "",
-    password: ""
+    email: string,
+    password: string
 }
 
 export default class AuthStore {
     searchObject = new User()
-    user = null
+    user = new Auth()
     code = null
     isLoading = false
 
@@ -96,20 +98,18 @@ export default class AuthStore {
 
             this.setUser(data)
 
-            Toast.show({
-                type: 'info',
-                text1: data?.message
-            })
+            await AsyncStorage.setItem("auth", JSON.stringify(data))
 
             this.setIsLoading(false)
 
-            return true
-        } catch (error) {
+            return data
+        } catch (error: any) {
+            const mess = error?.response?.data?.message
             this.setIsLoading(false)
             console.log('Đăng nhập thất bại!!', error);
             Toast.show({ 
-                type: 'info',
-                text1:"Tài khoản không tồn tại"
+                type: 'error',
+                text1: mess
             })
             return false
         }
@@ -128,7 +128,7 @@ export default class AuthStore {
     }
 
     reset = () => {
-        this.user = null
+        this.user = new Auth()
         this.isLoading = false
         this.code = null
         this.searchObject = new User()

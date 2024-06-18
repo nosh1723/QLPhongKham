@@ -10,11 +10,16 @@ import { TouchableOpacity } from 'react-native';
 import { useNavigation } from 'expo-router';
 import { Dialog } from '@rneui/themed';
 import { openURL } from 'expo-linking';
+import { useDispatch } from 'react-redux';
+import { removeAuth } from '@/redux/reducers/authReducer';
 
 
 const UserContent = () => {
     const navigation = useNavigation()
     const [isVisible, setIsVisivle] = useState(false)
+
+    const dispatch = useDispatch()
+
     const toggleDialog = () => {
         setIsVisivle(!isVisible)
     }
@@ -36,7 +41,7 @@ const UserContent = () => {
             name: 'Đăng xuất',
             icon: <Ionicons name="log-out" size={24} color="#ef4342" />,
             iconVector: "",
-            onPress: toggleDialog
+            onPress: () => dispatch(removeAuth({}))
         },
     ]
     
