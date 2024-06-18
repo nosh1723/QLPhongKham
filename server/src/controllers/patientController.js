@@ -1,11 +1,22 @@
 const Patient = require('../models/Patient');
+const Counter = require('../models/Counter');
+
+// Hàm tạo mã bệnh nhân theo định dạng "000000"
+const generatePatientCode = async () => {
+    const counter = await Counter.findOneAndUpdate(
+        { name: 'patientCode' },
+        { $inc: { count: 1 } },
+        { new: true, upsert: true }
+    );
+    const code = counter.count.toString().padStart(6, '0');
+    return code;
+};
 
 // Tạo mới bệnh nhân
 exports.createPatient = async (req, res) => {
     try {
         const {
             name,
-            code,
             gender,
             health_insurance_code,
             health_insurance_start_date,
@@ -18,6 +29,9 @@ exports.createPatient = async (req, res) => {
             phone_number,
             branch_id
         } = req.body;
+
+        // Tạo mã bệnh nhân tự động
+        const code = await generatePatientCode();
 
         const newPatient = new Patient({
             name,
@@ -42,7 +56,7 @@ exports.createPatient = async (req, res) => {
     }
 };
 
-// Lấy danh sách tất cả bệnh nhân
+// Lấy tất cả bệnh nhân
 exports.getAllPatients = async (req, res) => {
     try {
         const patients = await Patient.find();
@@ -52,7 +66,7 @@ exports.getAllPatients = async (req, res) => {
     }
 };
 
-// Lấy thông tin bệnh nhân theo ID
+// Lấy bệnh nhân theo ID
 exports.getPatientById = async (req, res) => {
     try {
         const patient = await Patient.findById(req.params.id);
@@ -65,7 +79,7 @@ exports.getPatientById = async (req, res) => {
     }
 };
 
-// Cập nhật thông tin bệnh nhân theo ID
+// Cập nhật bệnh nhân theo ID
 exports.updatePatientById = async (req, res) => {
     try {
         const {
