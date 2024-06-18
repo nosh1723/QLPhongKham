@@ -14,7 +14,7 @@ const DoctorSchema = new mongoose.Schema({
     code: { type: String, required: true, unique: true }, // Mã bác sĩ
     description: { type: String }, // Mô tả
     avatar: { type: String }, // Ảnh đại diện
-    branch_code: { type: String, required: true } // Mã chi nhánh
+    bbranch_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Branch', required: true } // Mã chi nhánh
 });
 
 // Virtual cho dịch vụ

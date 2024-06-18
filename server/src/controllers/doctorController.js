@@ -20,7 +20,7 @@ const getAllDoctors = async (req, res) => {
 
         // Tạo mảng để lưu thông tin chi tiết của từng bác sĩ kèm chi nhánh
         const doctorsWithBranchDetails = doctors.map(doctor => {
-            const branch = branches.find(b => b.code === doctor.branch_code);
+            const branch = branches.find(b => b._id.equals(doctor.branch_id));
             let branchDetails = null;
             if (branch) {
                 branchDetails = {
@@ -61,7 +61,7 @@ const getDoctorById = async (req, res) => {
         }
 
         // Lấy chi tiết chi nhánh của bác sĩ
-        const branch = await Branch.findOne({ code: doctor.branch_code });
+        const branch = await Branch.findOne({ _id: doctor.branch_id });
         let branchDetails = null;
         if (branch) {
             branchDetails = {
@@ -71,19 +71,19 @@ const getDoctorById = async (req, res) => {
             };
         }
 
-        const doctorInfo = doctor.toObject()
+        const doctorInfo = doctor.toObject();
 
         const doctorWithDetails = {
-            id: doctorInfo?._id,
-            code: doctorInfo?.code,
-            name: doctorInfo?.name,
-            birthDate: doctorInfo?.birth_date,
-            gender: doctorInfo?.gender,
-            yearOfExperience: doctorInfo?.year_of_experience,
-            experience: doctorInfo?.experience,
-            description: doctorInfo?.description,
-            avatar: doctorInfo?.avatar,
-            services: doctorInfo?.services,
+            id: doctorInfo._id,
+            code: doctorInfo.code,
+            name: doctorInfo.name,
+            birthDate: doctorInfo.birth_date,
+            gender: doctorInfo.gender,
+            yearOfExperience: doctorInfo.year_of_experience,
+            experience: doctorInfo.experience,
+            description: doctorInfo.description,
+            avatar: doctorInfo.avatar,
+            services: doctorInfo.services,
             branch: branchDetails
         };
 
